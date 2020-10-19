@@ -1,0 +1,11 @@
+tau 1 //tau_0
+Rver 1. //R_ver or sigma_r
+Reta 1.  //R_eta or sigma_eta
+t 0 4 20 // t_range: t_down t_up t_bin ,with bin is (2*val)+1
+x -10 10 50 // x_range: x_down x_up x_bin ,with bin is (2*val)+1
+y -10 10 50 // y_range: y_down y_up y_bin ,with bin is (2*val)+1
+eta -10 10 50 // eta_range: eta_down eta_up eta_bin ,with bin is (2*val)+1
+range 3 //range of particle impact
+input urqmd_result14 //input file name
+output Initial //output file name
+K 1.6 // normalization factor of EPTensor

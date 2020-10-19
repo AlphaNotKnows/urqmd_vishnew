@@ -1,0 +1,47 @@
+if [ -e lhc ]; then patch -R -p0 < lhc.patch || true; fi
+rm -f lhc
+gfortran -O3 -mcmodel=medium -c 1fluid.f -o obj_x86_64/1fluid.o
+gfortran -O3 -mcmodel=medium -c addpart.f -o obj_x86_64/addpart.o
+gfortran -O3 -mcmodel=medium -c angdis.f -o obj_x86_64/angdis.o
+gfortran -O3 -mcmodel=medium -c anndec.f -o obj_x86_64/anndec.o
+gfortran -O3 -mcmodel=medium -c bessel.f -o obj_x86_64/bessel.o
+gfortran -O3 -mcmodel=medium -c blockres.f -o obj_x86_64/blockres.o
+gfortran -O3 -mcmodel=medium -c boxprg.f -o obj_x86_64/boxprg.o
+gfortran -O3 -mcmodel=medium -c cascinit.f -o obj_x86_64/cascinit.o
+gfortran -O3 -mcmodel=medium -c CFmax.f90 -o obj_x86_64/CFmax.o
+gfortran -O3 -mcmodel=medium -c coload.f -o obj_x86_64/coload.o
+gfortran -O3 -mcmodel=medium -c cornelius.f90 -o obj_x86_64/cornelius.o
+gfortran -O3 -mcmodel=medium -c dectim.f -o obj_x86_64/dectim.o
+gfortran -O3 -mcmodel=medium -c delpart.f -o obj_x86_64/delpart.o
+gfortran -O3 -mcmodel=medium -c detbal.f -o obj_x86_64/detbal.o
+gfortran -O3 -mcmodel=medium -c dwidth.f -o obj_x86_64/dwidth.o
+gfortran -O3 -mcmodel=medium -c error.f -o obj_x86_64/error.o
+gfortran -O3 -mcmodel=medium -c getmass.f -o obj_x86_64/getmass.o
+gfortran -O3 -mcmodel=medium -c getspin.f -o obj_x86_64/getspin.o
+gfortran -O3 -mcmodel=medium -c hepnam.f -o obj_x86_64/hepnam.o
+gfortran -O3 -mcmodel=medium -c hepchg.f -o obj_x86_64/hepchg.o
+gfortran -O3 -mcmodel=medium -c hepcmp.f -o obj_x86_64/hepcmp.o
+gfortran -O3 -mcmodel=medium -c init.f -o obj_x86_64/init.o
+gfortran -O3 -mcmodel=medium -c input.f -o obj_x86_64/input.o
+gfortran -O3 -mcmodel=medium -c iso.f -o obj_x86_64/iso.o
+gfortran -O3 -mcmodel=medium -c ityp2pdg.f -o obj_x86_64/ityp2pdg.o
+gfortran -O3 -mcmodel=medium -c jdecay2.f -o obj_x86_64/jdecay2.o
+gfortran -O3 -mcmodel=medium -c make22.f -o obj_x86_64/make22.o
+gfortran -O3 -mcmodel=medium -c numrec.f -o obj_x86_64/numrec.o
+gfortran -O3 -mcmodel=medium -c output.f -o obj_x86_64/output.o
+gfortran -O3 -mcmodel=medium -c paulibl.f -o obj_x86_64/paulibl.o
+gfortran -O3 -mcmodel=medium -c proppot.f -o obj_x86_64/proppot.o
+gfortran -O3 -mcmodel=medium -c pythia6409.f -o obj_x86_64/pythia6409.o
+gfortran -O3 -mcmodel=medium -c quadri.f90 -o obj_x86_64/quadri.o
+gfortran -O3 -mcmodel=medium -c saveinfo.f -o obj_x86_64/saveinfo.o
+gfortran -O3 -mcmodel=medium -c scatter.f -o obj_x86_64/scatter.o
+gfortran -O3 -mcmodel=medium -c siglookup.f -o obj_x86_64/siglookup.o
+gfortran -O3 -mcmodel=medium -c string.f -o obj_x86_64/string.o
+gfortran -O3 -mcmodel=medium -c tabinit.f -o obj_x86_64/tabinit.o
+gfortran -O3 -mcmodel=medium -c uhmerge.f -o obj_x86_64/uhmerge.o
+gfortran -O3 -mcmodel=medium -c upmerge.f -o obj_x86_64/upmerge.o
+gfortran -O3 -mcmodel=medium -c whichres.f -o obj_x86_64/whichres.o
+gfortran -O3 -mcmodel=medium -c urqmd.f -o obj_x86_64/urqmd.o
+gfortran -O3 -mcmodel=medium -c gnuranf.f -o obj_x86_64/gnuranf.o
+gfortran obj_x86_64/1fluid.o obj_x86_64/addpart.o obj_x86_64/angdis.o obj_x86_64/anndec.o obj_x86_64/bessel.o obj_x86_64/blockres.o obj_x86_64/boxprg.o obj_x86_64/cascinit.o obj_x86_64/CFmax.o obj_x86_64/coload.o obj_x86_64/cornelius.o obj_x86_64/dectim.o obj_x86_64/delpart.o obj_x86_64/detbal.o obj_x86_64/dwidth.o obj_x86_64/error.o obj_x86_64/getmass.o obj_x86_64/getspin.o obj_x86_64/hepnam.o obj_x86_64/hepchg.o obj_x86_64/hepcmp.o obj_x86_64/init.o obj_x86_64/input.o obj_x86_64/iso.o obj_x86_64/ityp2pdg.o obj_x86_64/jdecay2.o obj_x86_64/make22.o obj_x86_64/numrec.o obj_x86_64/output.o obj_x86_64/paulibl.o obj_x86_64/proppot.o obj_x86_64/pythia6409.o obj_x86_64/quadri.o obj_x86_64/saveinfo.o obj_x86_64/scatter.o obj_x86_64/siglookup.o obj_x86_64/string.o obj_x86_64/tabinit.o obj_x86_64/uhmerge.o obj_x86_64/upmerge.o obj_x86_64/whichres.o obj_x86_64/urqmd.o obj_x86_64/gnuranf.o -O3 -mcmodel=medium -o urqmd.x86_64
+UrQMD executable urqmd.x86_64 created, please do not use for calculations at LHC energies (instead, compile with make lhc)
