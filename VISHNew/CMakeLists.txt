@@ -1,6 +1,6 @@
 ENABLE_LANGUAGE(Fortran)
 SET(CMAKE_Fortran_COMPILER h5fc)
-SET(CMAKE_Fortran_FLAGS "-O3 -cpp -lm -lz -fno-align-commons")
+SET(CMAKE_Fortran_FLAGS "-O3 -cpp -shlib -lm -lz -fno-align-commons")
 FILE(GLOB VISHNEW_SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.for ${CMAKE_CURRENT_SOURCE_DIR}/*.f90 )
 ADD_EXECUTABLE(VISHNew ${VISHNEW_SRC} )
 # FIND_PACKAGE(HDF5 REQUIRED COMPONENTS Fortran Fortran_HL)
