@@ -23,5 +23,4 @@ int main(int argc,char *argv[]){
   }
   energy_momentum.CalFlow();
   WriteFlow2(energy_momentum);
-  write2(energy_momentum);
 }
