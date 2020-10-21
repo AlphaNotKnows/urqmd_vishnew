@@ -2,7 +2,7 @@ pro 197 79
 tar 197 79
 
 nev 1
-IMP 0. 3.5
+IMP 0. 10.
 
 ecm 200.
 tim 4 0.1
