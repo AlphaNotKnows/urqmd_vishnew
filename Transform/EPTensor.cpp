@@ -4,7 +4,9 @@
 #include"EPTensor.h"
 namespace Transform{
 
-  EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(4,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0)))){}
+  // EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(4,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0)))){}
+
+    EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(4,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(1,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(1,0)))){}
 
   void EPTensor::AddParticle(const Particle&particle){
     //determine the step
@@ -37,9 +39,11 @@ namespace Transform{
       double delta_x=x_down_+i*dx-x0;
       for(unsigned j=y_down_bin;j<=y_up_bin;j++){
         double delta_y=y_down_+j*dy-y0;
-        for(unsigned k=eta_down_bin;k<=eta_up_bin;k++){
+        // for(unsigned k=eta_down_bin;k<=eta_up_bin;k++){
+        for(unsigned k=0;k<1;k++){
           //calculator the factor local in x,y,eta
-          double delta_eta=eta_down_+k*deta-eta0;
+          // double delta_eta=eta_down_+k*deta-eta0;
+          double delta_eta=eta0;
           double exponent=-( (delta_x*delta_x+delta_y*delta_y)/(2*Ex_R_ver*Ex_R_ver) + (delta_eta*delta_eta)/(2*Ex_R_eta*Ex_R_eta) );
           double local_factor=factor*std::exp(exponent);
           //loop over 4*4 tensor
@@ -56,7 +60,8 @@ namespace Transform{
   void EPTensor::CalFlow(){
     for(unsigned i=0;i<x_bin_;i++){
       for(unsigned j=0;j<y_bin_;j++){
-        for(unsigned k=0;k<eta_bin_;k++){
+        // for(unsigned k=0;k<eta_bin_;k++){
+          for(unsigned k=0;k<1;k++){
           //store the T0\nu for simplicity
           double T0[4]={0};
           for(unsigned nu=0;nu<4;nu++){
@@ -68,7 +73,7 @@ namespace Transform{
           //2D equation parameter
           double a=1,b=2*T0[0],c=3*(M2-T0[0]*T0[0]);
           flow_[0][i][j][k]=(-b+std::sqrt( b*b-4*a*c ))/2*a;
-          //cal the T00+P
+          //cal the T00+P,and remove the strange point
           double denominator=T0[0]+flow_[0][i][j][k]/3;
           if(denominator<0.01)continue;
           //get velocity
@@ -90,7 +95,8 @@ namespace Transform{
       for(unsigned i=0;i<Ex_M_bin[1];i++){
         for(unsigned j=0;j<Ex_M_bin[2];j++){
           //determine the eta=0 bin
-          unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
+          // unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
+          unsigned k=0;
           output.write((char*)&tensor[0][comp][i][j][k],sizeof(tensor[0][comp][i][j][k]));
         }
       }
@@ -107,7 +113,8 @@ namespace Transform{
       std::ofstream output(output_file.c_str(),std::ios::binary);
       for(unsigned i=0;i<Ex_M_bin[1];i++){
         for(unsigned j=0;j<Ex_M_bin[2];j++){
-         for(unsigned k=0;k<Ex_M_bin[3];k++){
+        //  for(unsigned k=0;k<Ex_M_bin[3];k++){
+        for(unsigned k=0;k<1;k++){
             output.write((char*)&tensor[0][comp][i][j][k],sizeof(tensor[0][comp][i][j][k]));
          }
         }
@@ -126,7 +133,8 @@ namespace Transform{
       std::ofstream output(output_file[comp].c_str(),std::ios::binary);
       for(unsigned i=0;i<Ex_M_bin[1];i++){
         for(unsigned j=0;j<Ex_M_bin[2];j++){
-          unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
+          // unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
+          unsigned k=0;
           output.write((char*)&flow[comp][i][j][k],sizeof(flow[comp][i][j][k]));
         }
       }
