@@ -1,0 +1,1 @@
+ADD_SUBDIRECTORY(ftn2bin)

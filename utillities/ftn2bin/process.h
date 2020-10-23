@@ -6,6 +6,7 @@
 #include<cmath>
 #include <string>
 #include <sstream>
+#include "Particle.h"
 namespace Transform{
   /**remove the header in ftn13 file, if the file is end, return false*/
   bool remove_header(std::ifstream&input);

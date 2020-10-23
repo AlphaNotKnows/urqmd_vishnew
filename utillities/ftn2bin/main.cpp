@@ -1,9 +1,6 @@
 #include "Vector4.h"
 #include "Particle.h"
 #include "process.h"
-#include "Vector4.cpp"
-#include "Particle.cpp"
-#include "process.cpp"
 using Transform::remove_header;
 using Transform::get_secondaries;
 using Transform::Particle;
@@ -14,6 +11,5 @@ int main(int argc,char*argv[]){
   if(argc>1){
     event_num=std::stoi(argv[1]);
   }
-  write_event(1);
-  Transform::first_particle(1);
+  write_event(event_num);
 }
