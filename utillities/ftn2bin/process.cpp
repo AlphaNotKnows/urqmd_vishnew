@@ -46,6 +46,33 @@ namespace Transform{
     return true;
   }
 
+  void write_secondaries(std::ofstream&output,const std::vector<Particle>&secondaries){
+    int num=secondaries.size();
+    output.write((char*)&num,sizeof(num));
+    for(int i=0;i<num;i++){
+      output.write((char*)&secondaries[i],sizeof(secondaries[i]));
+    }
+  }
+
+  void write_event(int event_num){
+    for(int event_id=0;event_id<event_num;event_id++){
+      std::string input_file="event";
+      input_file+=std::to_string(event_id);
+      std::cout<<"input "<<input_file;
+      std::ifstream input(input_file.c_str());
+      std::string output_file=input_file+"_bin.dat";
+      std::ofstream output(output_file.c_str());
+      std::vector<Particle>secondaries;
+      int sample_number=0;
+      while(get_secondaries(input,secondaries)){
+        write_secondaries(output,secondaries);
+        sample_number++;
+        secondaries.clear();
+      }
+      std::cout<<" and write "<<output_file<<" with "<<sample_number<<" samples"<<std::endl;
+    }
+  }
+
 
 
 }

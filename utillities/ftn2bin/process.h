@@ -11,6 +11,10 @@ namespace Transform{
   bool remove_header(std::ifstream&input);
   /**get the all the secondaries in this event, if end of file, return false*/
   bool get_secondaries(std::ifstream&input);
+  /**write the particle message as binary**/
+  void write_secondaries(std::ofstream&output,const std::vector<Particle>&secondaries);
+  /**write number of event to _bin.dat binary file*/
+  void write_event(int event_num=0);
 }
 
 #endif
