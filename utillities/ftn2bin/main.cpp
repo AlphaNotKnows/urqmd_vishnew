@@ -14,5 +14,6 @@ int main(int argc,char*argv[]){
   if(argc>1){
     event_num=std::stoi(argv[1]);
   }
-  write_event(event_num);
+  write_event(1);
+  Transform::first_particle(1);
 }

@@ -1,5 +1,5 @@
-#ifndef _PVECTOR4_H
-#define _PVECTOR4_H
+#ifndef _VECTOR4_H
+#define _VECTOR4_H
 #include<iostream>
 #include<fstream>
 #include<vector>

@@ -19,11 +19,6 @@ namespace Transform{
 
   std::ostream& operator<<(std::ostream&output,const Particle&this_particle){
     output<<"mass "<<this_particle.mass()<<','<<" type "<<this_particle.type()<<std::endl;
-    output<<"velocity";
-    double gamma=this_particle.momentum().Minkow()[0];
-    for(int i=0;i<4;i++){
-      output<<' '<<this_particle.momentum().Minkow()[i]/gamma;
-    }
     output<<std::endl;
     output<<"Minkow";
     for(int i=0;i<4;i++){

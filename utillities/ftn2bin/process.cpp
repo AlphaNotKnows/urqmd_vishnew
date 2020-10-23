@@ -62,14 +62,38 @@ namespace Transform{
       std::ifstream input(input_file.c_str());
       std::string output_file=input_file+"_bin.dat";
       std::ofstream output(output_file.c_str());
-      std::vector<Particle>secondaries;
       int sample_number=0;
+      std::vector<Particle>secondaries;
       while(get_secondaries(input,secondaries)){
         write_secondaries(output,secondaries);
-        sample_number++;
         secondaries.clear();
+        sample_number++;
       }
       std::cout<<" and write "<<output_file<<" with "<<sample_number<<" samples"<<std::endl;
+    }
+  }
+
+  void first_particle(int event_id){
+    std::string input_file="event";
+    input_file+=std::to_string(event_id);
+    std::string output_file=input_file+"first.txt";
+    input_file+="_bin.dat";
+    std::ifstream input(input_file.c_str());
+    std::ofstream output(output_file.c_str());
+    int secondaries_num=0;
+    int sample_num=0;
+    std::vector<Particle>secondaries;
+    while(input.read((char*)&secondaries_num,sizeof(secondaries_num))&&!input.eof()){
+      secondaries.clear();
+      for(int i=0;i<secondaries_num;i++){
+        double p[4]={0},x[4]={0};
+        Particle this_particle(p,x,0,0);
+        input.read((char*)&this_particle,sizeof(this_particle));
+        secondaries.push_back(this_particle);
+      }
+      sample_num++;
+      output<<"sample "<<sample_num<<std::endl;
+      output<<secondaries[0]<<std::endl;
     }
   }
 

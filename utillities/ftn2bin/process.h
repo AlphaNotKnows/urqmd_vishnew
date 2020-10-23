@@ -15,6 +15,8 @@ namespace Transform{
   void write_secondaries(std::ofstream&output,const std::vector<Particle>&secondaries);
   /**write number of event to _bin.dat binary file*/
   void write_event(int event_num=0);
+  /**output the first particle in each sample in this event*/
+  void first_particle(int event_id);
 }
 
 #endif
