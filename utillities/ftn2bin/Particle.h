@@ -20,8 +20,12 @@ namespace Transform{
       double m_;
       ///particle type;
       int type_;
+      ///I_3
+      int iso3_;
+      ///charge
+      int charge_;
   public:
-      Particle(double momentum[],double space[],double m,int itype);
+      Particle(double momentum[],double space[],double m,int itype,int iso3,int charge);
       /**return the momentum*/
       Vector4&momentum(){return p_;}
       /**return the space coordinate*/
@@ -31,17 +35,15 @@ namespace Transform{
       /**return the space coordinate in const*/
       const Vector4&space() const{return x_;}
       /**return mass of particle*/
-      double mass() const{return m_;}
+      double GetMass() const{return m_;}
       /**return particle type*/
-      int type() const{return type_;}
+      int GetType() const{return type_;}
+      /**return charge*/
+      int GetCharge() const{return charge_;}
+      /**return ios3*/
+      int GetIso3() const{return iso3_;}
   };
 
-  /**if freestreaming, return a particle freestream for dt
-   * @para[in] particle : the freestreaming particle
-   * @para[in] delta_t : freestreaming time
-   * @return final_particle : a particle after freestreaming
-   */
-  const Particle freestreaming(Particle&particle,double delta_t);
   /**output the particle information*/
   std::ostream&operator<<(std::ostream&output,const Particle&this_particle);
   /**remove the header of the file*/
