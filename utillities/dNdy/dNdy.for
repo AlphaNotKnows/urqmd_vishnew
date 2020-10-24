@@ -91,7 +91,7 @@ C----------Calculate dN_dy------------------
 
 
 C----------------------FINISH EBE CALCULATION---------------------------------
-           Total_Event = iEvent + 1
+           Total_Event = iEvent
            write(*,*) 'Total_Event = ', Total_Event
            dN_dy = dN_dy / Total_Event
 C           write(*,*) 'SUM = ', SUM

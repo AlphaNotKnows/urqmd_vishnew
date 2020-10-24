@@ -37,7 +37,7 @@ namespace Transform{
    * @para[in] central_min : lower bound of centrality range
    * @para[in] central_max : upper bound
   */
-  void search_central(std::ifstream&input,double central_min=0,double central_max=0.05);
+  void search_central(const std::string&input_file,double central_min=0,double central_max=0.05);
   // /**output the first particle in each sample in this event*/
   // void first_particle(int event_id);
 }

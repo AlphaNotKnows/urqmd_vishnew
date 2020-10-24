@@ -111,7 +111,9 @@ namespace Transform{
     return true;
   }
 
-  void search_central(std::ifstream&input,double central_min,double central_max){
+  void search_central(const std::string&input_file,double central_min,double central_max){
+    //sort all event
+    std::ifstream input(input_file.c_str());
     input.seekg(0,std::ios::beg);
     int id=0;
     int secondaries_num=0;
@@ -123,15 +125,36 @@ namespace Transform{
       all_event.insert(Event(id++,secondaries_num));
       input.seekg(secondaries_num*particle_length,std::ios::cur);
     }
+    input.close();
     central_max=central_max>1?1:central_max;
-    std::cout<<all_event.size()<<' '<<id<<std::endl;
+    //get the event range
     int lower_id=id*central_min,upper_id=id*central_max;
+    // get file name
+    std::string output_file="particle";
+    output_file+=std::to_string(int(central_min*100));
+    output_file+="~";
+    output_file+=std::to_string(int(central_max*100));
+    output_file+="%";
+    output_file+=".dat";
+    std::ofstream output(output_file.c_str());
+    std::cout<<"the sort result stores in "<<output_file<<std::endl;
+    // write file
+    input.open(input_file.c_str());
     auto ii=all_event.begin();
     int i=0;
     for(i=0;i<lower_id&&ii!=all_event.end();i++,ii++){}
     for(;i<upper_id;i++,ii++){
-      std::cout<<ii->GetId()<<' '<<ii->GetSecondariesNum()<<std::endl;
+      input.seekg(0,std::ios::beg);
+      if(!skip_event(ii->GetId(),input))std::cout<<"excess the range in "<<input.tellg()<<std::endl;
+      int secondaries_num=0;
+      input.read((char*)&secondaries_num,sizeof(int));
+      output.write((char*)&secondaries_num,sizeof(int));
+      char middle[1000000]={0};
+      std::cout<<"record event's id = "<<ii->GetId()<<" secondaries_num = "<<secondaries_num<<std::endl;
+      input.read(middle,secondaries_num*particle_length);
+      output.write(middle,secondaries_num*particle_length);
     }
+    output.close();
   }
 
   // void first_particle(int event_id){
