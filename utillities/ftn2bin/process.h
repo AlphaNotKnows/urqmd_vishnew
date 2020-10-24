@@ -8,7 +8,7 @@
 #include <sstream>
 #include "Particle.h"
 namespace Transform{
-  double PI=3.141592653589793238;
+  extern double PI;
   /**remove the header in ftn13 file, if the file is end, return false*/
   bool remove_header(std::ifstream&input);
   /**get the all the secondaries in this event, if end of file, return false*/

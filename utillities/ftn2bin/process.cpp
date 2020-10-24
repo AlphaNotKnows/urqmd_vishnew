@@ -1,6 +1,7 @@
 #include "process.h"
 namespace Transform{
-  
+  double PI=3.141592653589793238;
+
   bool remove_header(std::ifstream&input){
     std::string data_line;
     ///remove the header
