@@ -1,6 +1,7 @@
 #include "process.h"
 namespace Transform{
   double PI=3.141592653589793238;
+  const std::string all_event_file="all_events.dat";
 
   bool remove_header(std::ifstream&input){
     std::string data_line;
@@ -74,7 +75,7 @@ namespace Transform{
   }
 
   void write_event(int event_num){
-    std::string output_file="particle.dat";
+    std::string output_file=all_event_file;
     std::ofstream output(output_file.c_str());
     for(int event_id=0;event_id<event_num;event_id++){
       std::string input_file="event";
@@ -82,13 +83,44 @@ namespace Transform{
       std::cout<<"input "<<input_file;
       std::ifstream input(input_file.c_str());
       int sample_number=0;
+      int i=0;
       std::vector<Particle>secondaries;
       while(get_secondaries(input,secondaries)){
+        // std::cout<<i++<<' '<<secondaries.size()<<std::endl;
         write_secondaries(output,secondaries);
         secondaries.clear();
         sample_number++;
       }
       std::cout<<" and write "<<input_file<<" with "<<sample_number<<" samples"<<std::endl;
+    }
+    output.close();
+  }
+
+  bool skip_event(int event_num,std::ifstream&input){
+    //the bit length of a particle record
+    int particle_length=sizeof(double)*4+sizeof(int)*2;
+    for(int i=0;i<event_num;i++){
+      int secondaries_num=0;
+      input.read((char*)&secondaries_num,sizeof(int));
+      input.seekg(secondaries_num*particle_length,std::ios::cur);
+    }
+    int judge=0;
+    input.read((char*)&judge,sizeof(int));
+    if(input.tellg()==-1)return false;
+    input.seekg(-sizeof(int),std::ios::cur);
+    return true;
+  }
+
+  void search_central(std::ifstream&input,double central_min,double central_max){
+    input.seekg(0,std::ios::beg);
+    int i=0;
+    while(skip_event(i,input)){
+      int secondaries_num=0;
+      // std::cout<<input.tellg()<<std::endl;
+      input.read((char*)&secondaries_num,sizeof(int));
+      std::cout<<i<<' '<<secondaries_num<<std::endl;
+      i++;
+      input.seekg(0,std::ios::beg);
     }
   }
 
