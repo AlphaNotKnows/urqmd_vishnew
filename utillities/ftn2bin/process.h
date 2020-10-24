@@ -4,12 +4,25 @@
 #include<fstream>
 #include<vector>
 #include<cmath>
-#include <string>
-#include <sstream>
+#include<string>
+#include<sstream>
+#include<set>
 #include "Particle.h"
 namespace Transform{
   extern double PI;
   extern const std::string all_event_file;
+  // class which used to sort event 
+  class Event{
+  private:
+    int id_;
+    int secondaries_num_;
+  public:
+    Event(int id,int secondaries_num):id_(id),secondaries_num_(secondaries_num){}
+    int GetId()const {return id_;}
+    int GetSecondariesNum() const{return secondaries_num_;}
+    bool operator<(const Event&the_event) const{return secondaries_num_==the_event.GetSecondariesNum()?id_<the_event.GetId():secondaries_num_<the_event.GetSecondariesNum();}
+    bool operator>(const Event&the_event) const{return secondaries_num_==the_event.GetSecondariesNum()?id_>the_event.GetId():secondaries_num_>the_event.GetSecondariesNum();}
+  };
   /**remove the header in ftn13 file, if the file is end, return false*/
   bool remove_header(std::ifstream&input);
   /**get the all the secondaries in this event, if end of file, return false*/

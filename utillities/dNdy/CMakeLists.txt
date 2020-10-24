@@ -1,2 +1,0 @@
-ADD_EXECUTABLE(dNdy dNdy.for)
-INSTALL(TARGETS dNdy DESTINATION utillities/dNdy)

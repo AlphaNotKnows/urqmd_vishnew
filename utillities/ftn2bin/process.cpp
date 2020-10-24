@@ -113,14 +113,24 @@ namespace Transform{
 
   void search_central(std::ifstream&input,double central_min,double central_max){
     input.seekg(0,std::ios::beg);
-    int i=0;
-    while(skip_event(i,input)){
-      int secondaries_num=0;
-      // std::cout<<input.tellg()<<std::endl;
+    int id=0;
+    int secondaries_num=0;
+    int particle_length=sizeof(double)*4+sizeof(int)*2;
+    std::set<Event,std::greater<Event>>all_event;
+    while(true){
       input.read((char*)&secondaries_num,sizeof(int));
-      std::cout<<i<<' '<<secondaries_num<<std::endl;
-      i++;
-      input.seekg(0,std::ios::beg);
+      if(input.tellg()==-1)break;
+      all_event.insert(Event(id++,secondaries_num));
+      input.seekg(secondaries_num*particle_length,std::ios::cur);
+    }
+    central_max=central_max>1?1:central_max;
+    std::cout<<all_event.size()<<' '<<id<<std::endl;
+    int lower_id=id*central_min,upper_id=id*central_max;
+    auto ii=all_event.begin();
+    int i=0;
+    for(i=0;i<lower_id&&ii!=all_event.end();i++,ii++){}
+    for(;i<upper_id;i++,ii++){
+      std::cout<<ii->GetId()<<' '<<ii->GetSecondariesNum()<<std::endl;
     }
   }
 
