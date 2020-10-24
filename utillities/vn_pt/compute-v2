@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+
+import argparse
+import collections
+import itertools
+import sys
+import os
+import numpy as np
+import h5py
+import math
+
+Qn_to_compute = np.array([2, 3, 4])
+n0=0.5
+headfile=open("../EVENTS_HEADFILE.dat","r")
+temp=headfile.read()
+#print(type(temp))
+Nevent=int(temp)
+headfile.close()
+for kk in range(0,Nevent):
+#    for jjj in range(1,101):
+      try:
+         data=np.loadtxt("../Outputbyevent/particle_Event{}.txt".format(kk))
+      except FileNotFoundError as e:
+         continue
+      else:
+         try:
+            vabs_ID=data.T[0][:]
+         except IndexError as ee:
+            continue
+         else:
+            vabs_ID=data.T[0][:]
+            charge=np.absolute(data.T[1][:])
+            pT=np.absolute(data.T[3][:])
+            phi=data.T[4][:]
+            eta=data.T[5][:]
+#            pT=(data.T[3][:]*data.T[3][:]+data.T[4][:]*data.T[4][:])**0.5
+#            absolute_p=(pT*pT+data.T[5][:]*data.T[5][:])**0.5
+#            eta=0.5*np.log((absolute_p+data.T[5][:])/(absolute_p-data.T[5][:]))
+            ############## RPs ##################
+#            phi=np.arctan2(data.T[4][:],data.T[3][:])
+            vQphi = phi[:][
+               (charge>0) & (eta >-0.0) & (0.2 < pT)& (pT<5.0) &(eta <2.0)#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            ]
+            vM205=vQphi.size
+            if vM205==0:   
+               vQQn = np.zeros(3)
+            else:
+               vQQn=np.exp(np.outer(1j*Qn_to_compute, vQphi)).sum(axis=1)
+
+
+            phi66 = open('M_for_RPs.txt', 'a')
+            phi66.write(str(vM205))
+            phi66.write("\n")
+            phi66.close()
+            phi7 = open('Qn_imag_RPs.txt', 'a')
+            for l in range(int(len(vQQn))):
+              phi7.write(str(vQQn[l].imag))
+              phi7.write("\n")
+            phi7.close()
+            
+            phi7 = open('Qn_real_RPs.txt', 'a')
+            for l in range(int(len(vQQn))):
+              phi7.write(str(vQQn[l].real))
+              phi7.write("\n")
+            phi7.close()
+
+
