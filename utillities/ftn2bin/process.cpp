@@ -149,7 +149,7 @@ namespace Transform{
       int secondaries_num=0;
       input.read((char*)&secondaries_num,sizeof(int));
       output.write((char*)&secondaries_num,sizeof(int));
-      char middle[1000000]={0};
+      char middle[10000000]={0};
       std::cout<<"record event's id = "<<ii->GetId()<<" secondaries_num = "<<secondaries_num<<std::endl;
       input.read(middle,secondaries_num*particle_length);
       output.write(middle,secondaries_num*particle_length);
