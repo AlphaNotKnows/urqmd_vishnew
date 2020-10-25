@@ -6,5 +6,5 @@ dNdy=data[:,1]
 plt.plot(y,dNdy)
 plt.xlabel("rapidity")
 plt.ylabel("dN/dy")
-plt.title("dN/dy of AuAu 200GeV 0~5%")
+plt.title("dN/dy of AuAu 200GeV 0~6%")
 plt.show()

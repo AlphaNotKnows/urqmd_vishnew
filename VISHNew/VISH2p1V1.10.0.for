@@ -703,20 +703,30 @@ CSHEN===EOS from tables end====================================================
 
 !     Output entropy and energy profiles:
       Open(111,File='./Initial/init-entropy.dat',status='Replace')
+      Close(111)
+      Open(111,File='./Initial/init-entropy.dat',status='old',
+     & ACCESS="STREAM",FORM="UNFORMATTED")
       Do I=NXPhy0,NXPhy
       Do J=NYPhy0,NYPhy
-        Write (111,'(E20.8)',Advance="NO") Sd(I,J,1)
+        ! Write (111,'(E20.8)',Advance="NO") Sd(I,J,1)
+        Write (111) Sd(I,J,1)
       End Do
-        Write (111,*)
+        ! Write (111,*)
+      Write (111)
       End Do
       Close(111)
 
       Open(111,File='./Initial/init-energy.dat',status='Replace')
+      Close(111)
+      Open(111,File='./Initial/init-energy.dat',status='old',
+     & ACCESS="STREAM",FORM="UNFORMATTED")
       Do I=NXPhy0,NXPhy
       Do J=NYPhy0,NYPhy
-        Write (111,'(E20.8)',Advance="NO") Ed(I,J,1)
+        ! Write (111,'(E20.8)',Advance="NO") Ed(I,J,1)
+        Write (111) Ed(I,J,1)
       End Do
-        Write (111,*)
+        ! Write (111,*)
+      Write (111)
       End Do
       Close(111)
     
@@ -1060,7 +1070,18 @@ CSHEN=====================================================================
 !----------- Initial profile related output finishes here --------------
 !=======================================================================
 !=======================================================================
-
+      OPEN(111,FILE="./Initial/ed_history.dat",STATUS="REPLACE",
+     & FORM="UNFORMATTED",
+     & ACCESS="STREAM")
+      CLOSE(111)
+      OPEN(111,FILE="./Initial/u1_history.dat",STATUS="REPLACE",
+     & FORM="UNFORMATTED",
+     & ACCESS="STREAM")
+      CLOSE(111)
+      OPEN(111,FILE="./Initial/u2_history.dat",STATUS="REPLACE",
+     & FORM="UNFORMATTED",
+     & ACCESS="STREAM")
+      CLOSE(111)
 
        IW = 0
        do 9999 ITime = 1,MaxT
@@ -1074,7 +1095,6 @@ C======Using a smaller time step for short initialization time \tau_0
                   DT = DT_1
             endif
 CSHEN====END====================================================================
-
 
 !   ---Zhi-Changes---
         Call determineR0(NX0,NY0,NZ0,NX,NY,NZ,Ed,PL,Sd,
@@ -1355,6 +1375,42 @@ CSHEN===end=====================================================================
          Write(*,'(500e12.3)')(Temp(I,J,NZ0)*Hc,J=0,NYPhy,20 )
 203   continue
          Write(*,*)
+        OPEN(111,FILE="./Initial/ed_history.dat",STATUS="OLD",
+     & FORM="UNFORMATTED",POSITION="APPEND",
+     & ACCESS="STREAM")
+        Do I=NXPhy0,NXPhy
+          Do J=NYPhy0,NYPhy
+            ! Write (111,'(E20.8)',Advance="NO") Ed(I,J,1)
+            Write (111) Ed(I,J,1)
+          End Do
+            ! Write (111,*)
+          Write (111)
+        End Do
+        Close(111)
+        OPEN(111,FILE="./Initial/u1_history.dat",STATUS="OLD",
+     & FORM="UNFORMATTED",POSITION="APPEND",
+     & ACCESS="STREAM")
+          Do I=NXPhy0,NXPhy
+            Do J=NYPhy0,NYPhy
+              ! Write (111,'(E20.8)',Advance="NO") Ed(I,J,1)
+              Write (111) U1(I,J,1)
+            End Do
+              ! Write (111,*)
+            Write (111)
+          End Do
+          Close(111)
+          OPEN(111,FILE="./Initial/u2_history.dat",STATUS="OLD",
+     & FORM="UNFORMATTED",POSITION="APPEND",
+     & ACCESS="STREAM")
+               Do I=NXPhy0,NXPhy
+                 Do J=NYPhy0,NYPhy
+                   ! Write (111,'(E20.8)',Advance="NO") Ed(I,J,1)
+                   Write (111) U2(I,J,1)
+                 End Do
+                   ! Write (111,*)
+                 Write (111)
+               End Do
+               Close(111)
 
 
       Print*, 'Center Energy Density',  Ed(0,0,NZ0)*HBarC
@@ -1438,6 +1494,7 @@ c                END IF
             F0PPI(I,J) = PPI(I,J,NZ0)
           endif
 5400  CONTINUE
+
 
       Print*, 'NINT', NINT
 
