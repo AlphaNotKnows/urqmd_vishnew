@@ -21,5 +21,4 @@ int main(int argc,char*argv[]){
     }
   }
   write_event(event_num);
-  Transform::search_central(Transform::all_event_file,central_min,central_max);
 }

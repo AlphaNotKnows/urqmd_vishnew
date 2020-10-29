@@ -143,9 +143,11 @@ namespace Transform{
     auto ii=all_event.begin();
     int i=0;
     for(i=0;i<lower_id&&ii!=all_event.end();i++,ii++){}
+    int operate_event=0;
     for(;i<upper_id;i++,ii++){
       input.seekg(0,std::ios::beg);
       if(!skip_event(ii->GetId(),input))std::cout<<"excess the range in "<<input.tellg()<<std::endl;
+      operate_event++;
       int secondaries_num=0;
       input.read((char*)&secondaries_num,sizeof(int));
       output.write((char*)&secondaries_num,sizeof(int));
@@ -156,6 +158,7 @@ namespace Transform{
       output.write(middle,length);
       delete[] middle;
     }
+    std::cout<<"all event between "<<central_min*100<<"~"<<central_max*100<<"% is "<<operate_event<<std::endl;
     output.close();
   }
 
