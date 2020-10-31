@@ -57,7 +57,7 @@ namespace Transform{
       const double* const momentum=secondaries[i].momentum().Minkow();
       double p_T=std::sqrt(momentum[1]*momentum[1]+momentum[2]*momentum[2]);
       double mass=secondaries[i].GetMass();
-      double rapid=secondaries[i].momentum().Milne()[3];
+      double eta=secondaries[i].space().Milne()[3];
       double phi=0;
       if(momentum[1]==0){
         phi=PI/2;
@@ -69,8 +69,8 @@ namespace Transform{
       output.write((char*)&mass,sizeof(mass));
       output.write((char*)&p_T,sizeof(p_T));
       output.write((char*)&phi,sizeof(phi));
-      output.write((char*)&rapid,sizeof(rapid));
-      // output<<pid<<" "<<charge<<' '<<mass<<' '<<p_T<<' '<<phi<<' '<<rapid<<std::endl;
+      output.write((char*)&eta,sizeof(eta));
+      // output<<pid<<" "<<charge<<' '<<mass<<' '<<p_T<<' '<<phi<<' '<<eta<<std::endl;
     }
   }
 
@@ -128,14 +128,14 @@ namespace Transform{
     input.close();
     central_max=central_max>1?1:central_max;
     //get the event range
-    int lower_id=id*central_min,upper_id=id*central_max;
+    int lower_id=std::round(id*central_min),upper_id=std::round(id*central_max);
     // get file name
     std::string output_file="particle";
-    output_file+=std::to_string(int(central_min*100));
+    output_file+=std::to_string(int(std::round(central_min*100)));
     output_file+="~";
-    output_file+=std::to_string(int(central_max*100));
+    output_file+=std::to_string(int(std::round(central_max*100)));
     output_file+="%";
-    output_file+=".dat";
+    output_file+=".txt";
     std::ofstream output(output_file.c_str());
     std::cout<<"the sort result stores in "<<output_file<<std::endl;
     // write file
