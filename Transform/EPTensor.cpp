@@ -96,7 +96,9 @@ namespace Transform{
           //determine the eta=0 bin
           // unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
           unsigned k=0;
-          output.write((char*)&tensor[0][comp][i][j][k],sizeof(tensor[0][comp][i][j][k]));
+          // transfrom from GeV/fm^3 to fm^-4
+          double middle=tensor[0][comp][i][j][k]/HbarC;
+          output.write((char*)&middle,sizeof(middle));
         }
       }
       output.close();
@@ -114,7 +116,9 @@ namespace Transform{
         for(unsigned j=0;j<Ex_M_bin[2];j++){
         //  for(unsigned k=0;k<Ex_M_bin[3];k++){
         for(unsigned k=0;k<1;k++){
-            output.write((char*)&tensor[0][comp][i][j][k],sizeof(tensor[0][comp][i][j][k]));
+          // transfrom from GeV/fm^3 to fm^-4
+          double middle=tensor[0][comp][i][j][k]/HbarC;
+          output.write((char*)&middle,sizeof(middle));
          }
         }
       }
