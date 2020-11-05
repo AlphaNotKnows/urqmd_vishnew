@@ -134,7 +134,9 @@ namespace Transform{
         for(unsigned j=0;j<Ex_M_bin[2];j++){
           // unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
           unsigned k=0;
-          output.write((char*)&flow[comp][i][j][k],sizeof(flow[comp][i][j][k]));
+          // transfrom from GeV/fm^3 to fm^-4
+          double middle=flow[comp][i][j][k]/HbarC;
+          output.write((char*)&middle,sizeof(middle));
         }
       }
       // std::ofstream output(output_file[comp].c_str());

@@ -21,6 +21,7 @@ namespace Transform{
   double Ex_range=3;
   double Ex_K=1.6;
   const double Pi=3.14159265358979323846264338328;
+  const double HbarC=0.19733;
   std::string Ex_input_file="urqmd_result14";
   std::string Ex_output_path=".";
   std::string Ex_parameter_file="Transform_para.txt";

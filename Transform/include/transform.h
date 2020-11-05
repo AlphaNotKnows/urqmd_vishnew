@@ -33,6 +33,8 @@ extern std::string Ex_parameter_file;
 extern double Ex_K;
 /// Pi
 extern const double Pi;
+/**HbarC=GeV*fm*/
+extern const double HbarC;
 /**pause until input a enter*/
 void pause();
 /**get the dir_path of the file_path*/

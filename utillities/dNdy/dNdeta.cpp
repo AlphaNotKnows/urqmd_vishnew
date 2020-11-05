@@ -3,6 +3,7 @@
 #include<cmath>
 #include<string>
 #include<vector>
+#include<iomanip>
 using namespace std;
 //eta bin
 const double deta=0.5;
@@ -11,7 +12,7 @@ const double eta_range=6;
 //bin number
 const int bin_num=std::round(eta_range/deta)*2+1;
 //dNdeta array
-std::vector<int> dNdeta_all(bin_num,0);
+std::vector<double> dNdeta_all(bin_num,0);
 int main(int argc,char*argv[]){
   std::string file_path;
   int central_min=0,central_max=100;
@@ -58,13 +59,13 @@ int main(int argc,char*argv[]){
       }
     }
     for(int i=0;i<bin_num;i++){
-      dNdeta_all[i]=dNdeta[i]/deta;
+      dNdeta_all[i]+=dNdeta[i]/deta;
     }
   }
   for(int i=0;i<bin_num;i++){
     dNdeta_all[i]/=event_num;
     //get eta number
     double eta_num=i*deta-eta_range;
-    output<<eta_num<<' '<<dNdeta_all[i]<<endl;
+    output<<setw(4)<<eta_num<<' '<<setw(6)<<dNdeta_all[i]<<endl;
   }
 }
