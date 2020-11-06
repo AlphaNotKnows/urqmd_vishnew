@@ -138,8 +138,10 @@ namespace Transform{
         for(unsigned j=0;j<Ex_M_bin[2];j++){
           // unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
           unsigned k=0;
-          // transfrom from GeV/fm^3 to fm^-4
-          double middle=flow[comp][i][j][k]/HbarC;
+          // transfrom ed from GeV/fm^3 to fm^-4 and u1,u2 is unit less
+          double middle;
+          if(comp==0)middle=flow[comp][i][j][k]/HbarC;
+          else middle=flow[comp][i][j][k];
           output.write((char*)&middle,sizeof(middle));
         }
       }
