@@ -51,12 +51,13 @@ def run_urqmd_initial(event_num):
   os.mkdir(urqmd_initial_path)
   os.chdir(urqmd_path)
   for i in range(0,event_num):
-    os.system(urqmd_exec)
+    output_str=os.popen(urqmd_exec).read()
+    print(output_str)
     shutil.move(urqmd_result14,urqmd_initial_path+"/event14_{}".format(i))
     shutil.move(urqmd_result19,urqmd_initial_path+"/event19_{}".format(i))
   # get urqmd energy
   print("begin QGP energy")
-  os.system(urqmd_path+"/QGP_energy "+str(event_num))
+  output_str=os.popen(urqmd_path+"/QGP_energy "+str(event_num)).read()
   os.chdir(urqmd_initial_path)
   print("end QGP energy")
   print("begin centrality sort")
@@ -89,7 +90,7 @@ def run_urqmd_initial(event_num):
 # def run_urqmd_initial():
 #   print("begin urqmd initial")
 #   os.chdir(urqmd_path)
-#   os.system(urqmd_initial_exec)
+#   output_str=os.popen(urqmd_initial_exec)
 #   if(os.path.exists(transform_input)):
 #     os.remove(transform_input)
 #   shutil.move(urqmd_initial_result,transform_input)
@@ -101,7 +102,8 @@ def run_transform():
   os.chdir(transform_path)
   if(not os.path.exists(transform_result_dir)):
     os.mkdir(transform_result_dir)
-  os.system(transform_exec+' '+transform_para)
+  output_str=os.popen(transform_exec+' '+transform_para).read()
+  print(output_str)
   if(os.path.exists(vishnew_input_dir)):
     shutil.rmtree(vishnew_input_dir)
   shutil.move(transform_result_dir,vishnew_input_dir)
@@ -112,7 +114,8 @@ def run_vishnew():
   os.chdir(vishnew_path)
   if(not os.path.exists(vishnew_result_dir)):
     os.mkdir(vishnew_result_dir)
-  os.system(vishnew_exec)
+  output_str=os.popen(vishnew_exec).read()
+  print(output_str)
   if(os.path.exists(iss_input_dir)):
     shutil.rmtree(iss_input_dir)
   shutil.move(vishnew_result_dir,iss_input_dir)
@@ -121,7 +124,8 @@ def run_vishnew():
 def run_iSS():
   print("begin iSS")
   os.chdir(iss_path)
-  os.system(iss_exec)
+  output_str=os.popen(iss_exec).read()
+  print(output_str)
   if(os.path.exists(osc2u_input)):
     os.remove(osc2u_input)
   shutil.move(iss_result,osc2u_input)
@@ -131,7 +135,8 @@ def run_iSS():
 def run_osc2u():
   print("begin osc2u")
   os.chdir(osc2u_path)
-  os.system(osc2u_exec+"<"+osc2u_input)
+  output_str=os.popen(osc2u_exec+"<"+osc2u_input).read()
+  print(output_str)
   os.rename(osc2u_result,osc2u_result_move)
   if(os.path.exists(urqmd_frez_input)):
     os.remove(urqmd_frez_input)
@@ -141,7 +146,8 @@ def run_osc2u():
 def run_urqmd_frez():
   print("begin urqmd frezout")
   os.chdir(urqmd_path)
-  os.system(urqmd_frez_exec)
+  output_str=os.popen(urqmd_frez_exec).read()
+  print(output_str)
   print("end urqmd frezout")
 
 
@@ -152,14 +158,13 @@ run_urqmd_initial(event_num)
 for central_dir in os.listdir(initial_path):
   if(central_dir.find("central")==-1):
     continue
-  os.chdir(initial_path+'/'+central_dir)
-  print("enter "+initial_path+central_dir)
+  print("enter "+initial_path+'/'+central_dir)
   for initial_file in os.listdir(initial_path+'/'+central_dir):
-    print("initial with :"+initial_file)
+    os.chdir(initial_path+'/'+central_dir)
     if(initial_file.find("event")==-1):
       continue
-    print("initial "+initial_file)
-    shutil.copy(initial_file,transform_input)
+    print("initial with :"+initial_file)
+    shutil.copy(initial_path+'/'+central_dir+'/'+initial_file,transform_input)
     # run_urqmd_initial()
     run_transform()
     run_vishnew()
@@ -168,9 +173,8 @@ for central_dir in os.listdir(initial_path):
     run_urqmd_frez()
     if(not os.path.exists(result_path)):
       os.mkdir(result_path)
-    target_dir=result_path+central_dir
+    target_dir=result_path+'/'+central_dir
     if(not os.path.exists(target_dir)):
       os.mkdir(target_dir)
-    shutil.move(urqmd_frez_result,target_dir+'/'+initial_file)
-  
-  # shutil.move(urqmd_frez_result,result_file+str(i))
+    shutil.move(urqmd_frez_result,target_dir)
+    os.rename(target_dir+'/frez_result',target_dir+"/"+initial_file)

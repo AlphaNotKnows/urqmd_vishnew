@@ -24,13 +24,13 @@ int main(int argc,char*argv[]){
   file_path+=to_string(central_min);
   file_path+="~";
   file_path+=to_string(central_max);
-  file_path+="%.txt";
+  file_path+="%.dat";
   ifstream input(file_path.c_str());
   string output_file="../results/dNdeta";
-  file_path+=to_string(central_min);
-  file_path+="~";
-  file_path+=to_string(central_max);
-  file_path+="%.txt";
+  output_file+=to_string(central_min);
+  output_file+="~";
+  output_file+=to_string(central_max);
+  output_file+="%.txt";
   cout<<"write to file "<<output_file<<endl;
   ofstream output(output_file.c_str());
   int event_num=0;
