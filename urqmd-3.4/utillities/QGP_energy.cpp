@@ -19,7 +19,7 @@ int main(int argc,char*argv[]){
       getline(input,data_line);
     }
     double QGP_energy=0,energy=0;
-    int spec_num=0;
+    int spec_num=0,secondaries=0;
     while(true){
       getline(input,data_line);
       if(input.eof())break;
@@ -30,7 +30,7 @@ int main(int argc,char*argv[]){
         input_line>>middle;
         if(i==5){
           this_energy=middle;
-          spec_num++;
+          spec_num++;secondaries++;
           energy+=this_energy;
         }
         else if(i==10&&middle!=0){
@@ -39,10 +39,16 @@ int main(int argc,char*argv[]){
         }
       }
     }
-    output<<i<<' '<<QGP_energy<<' '<<spec_num<<' '<<energy<<endl;
     cout<<"event "<<i<<endl;
+    if(spec_num!=secondaries){
+      output<<i<<' '<<QGP_energy<<' '<<spec_num<<' '<<energy<<' '<<secondaries<<endl;
+    }
+    else{
+      cout<<"this event is not interact"<<endl;
+    }
     cout<<"energy in the system is "<<energy<<endl;
     cout<<"QGP energy is "<<QGP_energy<<endl;
-    cout<<"spectator number is "<<spec_num<<endl<<endl;;
+    cout<<"spectator number is "<<spec_num<<endl;
+    cout<<"secondaries number is "<<secondaries<<endl<<endl;
   }
 }
