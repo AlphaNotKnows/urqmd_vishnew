@@ -2,16 +2,18 @@ import sys
 import os
 import shutil
 import re
+import numpy as np
 root_path=sys.path[0]
 result_path=root_path+"/result"
 ftn2bin_path=root_path+"/utillities/results"
 dNdeta_path=root_path+"/utillities/dNdy"
-central=[0,3,6,10,15,20,25,30,35,40,45,50]
 # loop over all directory
-for i in range(len(central)-1):
-  central_dir=result_path+"/central{}~{}%".format(central[i],central[i+1])
-  if(not os.path.exists(central_dir)):
-    continue
+central=[0,3,6,10,15,20,25,30,35,40,45,50]
+def cal_dNdeta():
+  for i in range(len(central)-1):
+    central_dir=result_path+"/central{}~{}%".format(central[i],central[i+1])
+    if(not os.path.exists(central_dir)):
+      continue
   print("begin central{}~{}%".format(central[i],central[i+1]))
   shutil.copy(result_path+"/ftn2bin",central_dir)
   os.chdir(central_dir)
@@ -26,3 +28,14 @@ for i in range(len(central)-1):
   os.chdir(dNdeta_path)
   os.system(dNdeta_path+"/dNdeta {} {}".format(central[i],central[i+1]))
   print("end central{}~{}%".format(central[i],central[i+1]))
+
+def cal_dNdeta0():
+  os.chdir(ftn2bin_path)
+  dNdeta0=np.arange((len(central)-1)*2).reshape(len(central)-1,2)
+  for i in range(len(central)-1):
+    dNdeta=np.loadtxt(ftn2bin_path+"/dNdeta{}~{}%.txt".format(central[i],central[i+1]))
+    dNdeta0[i][0]=(central[i]+central[i+1])/2
+    dNdeta0[i][1]=dNdeta[(dNdeta.shape[0]-1)/2][1]
+  np.savetxt(ftn2bin_path+"/dNdeta0.txt",dNdeta0)
+
+cal_dNdeta0()
