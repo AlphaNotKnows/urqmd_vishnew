@@ -54,6 +54,7 @@ namespace Transform{
     for(int i=0;i<num;i++){
       int pid=secondaries[i].GetType();
       int charge=secondaries[i].GetCharge();
+      int iso3=secondaries[i].GetIso3();
       const double* const momentum=secondaries[i].momentum().Minkow();
       double p_T=std::sqrt(momentum[1]*momentum[1]+momentum[2]*momentum[2]);
       double mass=secondaries[i].GetMass();
@@ -65,6 +66,7 @@ namespace Transform{
       else phi=std::atan(momentum[2]/momentum[1]);
       if(momentum[1]<0)phi+=PI;
       output.write((char*)&pid,sizeof(pid));
+      output.write((char*)&iso3,sizeof(iso3));
       output.write((char*)&charge,sizeof(charge));
       output.write((char*)&mass,sizeof(mass));
       output.write((char*)&p_T,sizeof(p_T));
@@ -98,7 +100,7 @@ namespace Transform{
 
   bool skip_event(int event_num,std::ifstream&input){
     //the bit length of a particle record
-    int particle_length=sizeof(double)*4+sizeof(int)*2;
+    int particle_length=sizeof(double)*4+sizeof(int)*3;
     for(int i=0;i<event_num;i++){
       int secondaries_num=0;
       input.read((char*)&secondaries_num,sizeof(int));
@@ -117,7 +119,7 @@ namespace Transform{
     input.seekg(0,std::ios::beg);
     int id=0;
     int secondaries_num=0;
-    int particle_length=sizeof(double)*4+sizeof(int)*2;
+    int particle_length=sizeof(double)*4+sizeof(int)*3;
     std::set<Event,std::greater<Event>>all_event;
     while(true){
       input.read((char*)&secondaries_num,sizeof(int));

@@ -21,7 +21,7 @@ def move_all_event():
       os.chdir(cen_dir)
       for i_event in os.listdir(central_dir):
         if re.match("event",i_event):
-          shutil.move(cen_dir+"/"+i_event,target_path+"/event{}".format(event_num))
+          shutil.copy(cen_dir+"/"+i_event,target_path+"/event{}".format(event_num))
           event_num+=1
   print("event number is {}".format(event_num))
   return event_num
