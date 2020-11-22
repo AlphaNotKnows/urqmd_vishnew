@@ -45,7 +45,7 @@ int main(int argc, char** argv)
    
    // read in parameters
    ParameterReader *paraRdr = new ParameterReader;
-   paraRdr->readFromFile("parameters.dat");
+   paraRdr->readFromFile("iSS_parameter.txt");
    paraRdr->readFromArguments(argc, argv);
    paraRdr->echo();
 

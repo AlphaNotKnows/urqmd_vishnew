@@ -24,10 +24,11 @@ int main(int argc,char*argv[]){
     complex<double> Qn,Q2n;
     const complex<double> j(0,1);
     for(int i=0;i<secondaries_num;i++){
-      int pid,charge;
+      int pid,charge,iso3;
       double mass,p_T,phi,rapid;
       //read data of a particle
       input.read((char*)&pid,sizeof(pid));
+      input.read((char*)&iso3,sizeof(iso3));
       input.read((char*)&charge,sizeof(charge));
       input.read((char*)&mass,sizeof(mass));
       input.read((char*)&p_T,sizeof(p_T));
