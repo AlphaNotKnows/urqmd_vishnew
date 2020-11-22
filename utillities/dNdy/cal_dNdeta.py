@@ -8,7 +8,7 @@ result_path=root_path+"/result"
 ftn2bin_path=root_path+"/utillities/results"
 dNdeta_path=root_path+"/utillities/dNdy"
 # loop over all directory
-central=[0,3,6,10,15,20,25,30,35,40,45,50]
+central=[0,5,10,15,20,30,40,50,60,70]
 def cal_dNdeta():
   for i in range(len(central)-1):
     central_dir=result_path+"/central{}~{}%".format(central[i],central[i+1])
@@ -29,13 +29,30 @@ def cal_dNdeta():
   os.system(dNdeta_path+"/dNdeta {} {}".format(central[i],central[i+1]))
   print("end central{}~{}%".format(central[i],central[i+1]))
 
+def cal_dNdeta01():
+  os.chdir(ftn2bin_path)
+  dNdeta0=np.arange((len(central)-1)*8).reshape(len(central)-1,8)
+  for i in range(len(central)-1):
+    os.chdir(dNdeta_path)
+    os.system(dNdeta_path+"/dNdeta {} {}".format(central[i],central[i+1]))
+    os.chdir(ftn2bin_path)
+    dNdeta=np.loadtxt(ftn2bin_path+"/dNdeta{}~{}%.txt".format(central[i],central[i+1]))
+    dNdeta0[i][0]=(central[i]+central[i+1])/2
+    for j in range(1,8):
+      dNdeta0[i][j]=dNdeta[(dNdeta.shape[0]-1)/2][j]
+      
+  np.savetxt(ftn2bin_path+"/dNdeta0.txt",dNdeta0)
+
 def cal_dNdeta0():
   os.chdir(ftn2bin_path)
-  dNdeta0=np.arange((len(central)-1)*2).reshape(len(central)-1,2)
+  dNdeta0=np.arange((len(central)-1)*8).reshape(len(central)-1,8)
   for i in range(len(central)-1):
     dNdeta=np.loadtxt(ftn2bin_path+"/dNdeta{}~{}%.txt".format(central[i],central[i+1]))
     dNdeta0[i][0]=(central[i]+central[i+1])/2
-    dNdeta0[i][1]=dNdeta[(dNdeta.shape[0]-1)/2][1]
+    for j in range(1,8):
+      dNdeta0[i][j]=dNdeta[(dNdeta.shape[0]-1)/2][j]
+      
   np.savetxt(ftn2bin_path+"/dNdeta0.txt",dNdeta0)
 
+cal_dNdeta()
 cal_dNdeta0()

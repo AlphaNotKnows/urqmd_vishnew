@@ -15,13 +15,13 @@ def move_all_event():
   os.mkdir(target_path)
   event_num=0
   for cen_dir in os.listdir(result_path):
-    if re.match("central",cen_dir):
+    if re.match("central[0-9]*~[0-9]*%",cen_dir):
       print(" enter {}".format(cen_dir))
       central_dir=result_path+"/"+cen_dir
-      os.chdir(cen_dir)
+      os.chdir(central_dir)
       for i_event in os.listdir(central_dir):
-        if re.match("event",i_event):
-          shutil.copy(cen_dir+"/"+i_event,target_path+"/event{}".format(event_num))
+        if re.match("event[0-9]*",i_event):
+          shutil.copy(central_dir+"/"+i_event,target_path+"/event{}".format(event_num))
           event_num+=1
   print("event number is {}".format(event_num))
   return event_num
@@ -36,13 +36,14 @@ def run_ftn2bin(event_num):
 
 # begin centrality sort
 def central_sort():
-  central=[0,3,6,10,15,20,25,30,35,40,45,50]
+  central=[0,5,10,15,20,30,40,50,60,70]
   shutil.copy(result_path+"/central",target_path)
+  os.chdir(target_path)
   for i in range(len(central)-1):
-    print("begin {} {}".format(central[i],central[i-1]))
-    output=os.popen(target_path+"/central {} {}".format(central[i],central[i-1])).read()
+    print("begin {} {}".format(central[i],central[i+1]))
+    output=os.popen(target_path+"/central {} {}".format(central[i]/70.,central[i+1]/70.)).read()
     print(output)
-    print("end {} {}".format(central[i],central[i-1]))
+    print("end {} {}".format(central[i],central[i+1]))
 
 
 

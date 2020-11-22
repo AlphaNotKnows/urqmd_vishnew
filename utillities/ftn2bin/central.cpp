@@ -11,10 +11,10 @@ using Transform::Particle;
 using Transform::write_event;
 int main(int argc,char*argv[]){
   // input the number of event to count
-  double central_min=0,central_max=1;
+  int central_min=0,central_max=100;
   if(argc>=3){
-    central_min=std::stof(argv[1]);
-    central_max=std::stof(argv[2]);
+    central_min=std::stoi(argv[1]);
+    central_max=std::stoi(argv[2]);
   }
-  Transform::search_central(Transform::all_event_file,central_min,central_max);
+  Transform::search_central(Transform::all_event_file,double(central_min)/100,double(central_max)/100);
 }

@@ -71,17 +71,17 @@ int main(int argc,char*argv[]){
         dNdeta_all_this[bin_id]++;
       }
       //count p+-
-      else if(pid>=1&&pid<=16&&iso3==1){
+      if(pid>=1&&pid<=16&&iso3==1){
         dNdeta_p_pos_this[bin_id]++;
       }
       else if((-pid)>=1&&(-pid)<=16&&(-iso3)==1){
         dNdeta_p_neg_this[bin_id]++;
       }
       //count pi+-
-      else if(pid==101){
+      else if(pid==101&&charge>0){
         dNdeta_pi_pos_this[bin_id]++;
       }
-      else if(pid==-101){
+      else if(pid==101&&charge<0){
         dNdeta_pi_neg_this[bin_id]++;
       }
       // count K+-
