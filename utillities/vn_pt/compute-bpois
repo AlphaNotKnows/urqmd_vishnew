@@ -16,6 +16,7 @@ temp=headfile.read()
 #print(type(temp))
 Nevent=int(temp)
 headfile.close()
+pid=int(sys.argv[1])
 #print(Nevent-1)
 for kk in range(0,Nevent):
 #    for jjj in range(1,101):
@@ -44,7 +45,7 @@ for kk in range(0,Nevent):
             for ppp in range (lstep):
                 # kaon
                 vQphi = phi[:][
-                    (vabs_ID==211) & (charge>0) & (eta <2.0)& (eta >0.0)  & (ppp*0.1 < pT) & (pT < (ppp+1)*0.1)# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    (vabs_ID==pid) & (charge>0) & (eta < 2.0)& (eta > 0.0)  & (ppp*0.1 < pT) & (pT < (ppp+1)*0.1)# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 ]
                 vQM=vQphi.size
                 if vQM==0:   

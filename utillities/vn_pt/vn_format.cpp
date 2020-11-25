@@ -3,14 +3,13 @@
 #include<string>
 using namespace std;
 int main(){
-  ifstream input("all_event.dat");
+  ifstream input("../all_events.dat");
   if(!input){
-    cout<<"there is no all_event.dat file"<<endl;
+    cout<<"there is no all_events.dat file"<<endl;
     exit(-1);
   }
   int event_num=0;
   while(true){
-    int secondaries_num=0;
     int secondaries_num=0;
     input.read((char*)&secondaries_num,sizeof(int));
     //judge the end of the file

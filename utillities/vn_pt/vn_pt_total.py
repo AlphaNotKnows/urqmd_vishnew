@@ -10,6 +10,7 @@ import h5py
 #import pylab as pl
 
 ############# calculate the A ~k ~ (ARPs) part ##################3
+pid=int(sys.argv[1])
 M_for_ARPs=np.genfromtxt('M_for_ARPs.txt',delimiter='\n')
 Qn_imag_ARPs=np.genfromtxt('Qn_imag_ARPs.txt',delimiter='\n')
 Qn_real_ARPs=np.genfromtxt('Qn_real_ARPs.txt',delimiter='\n')
@@ -278,18 +279,18 @@ d405=(d405+dB405)/2
 
 ################## v2(pT) ##########33
 v2_pT05=d205/(cn205**0.5)
-np.savetxt('../results/211_v2_pT05.dat',v2_pT05,fmt='%s',newline='\n')
+np.savetxt('../results/{}_v2_pT05.dat'.format(pid),v2_pT05,fmt='%s',newline='\n')
 
 
 ################## v3(pT) ##########33
 v3_pT05=d305/(cn305**0.5)
-np.savetxt('../results/211_v3_pT05.dat',v3_pT05,fmt='%s',newline='\n')
+np.savetxt('../results/{}_v3_pT05.dat'.format(pid),v3_pT05,fmt='%s',newline='\n')
 
 
 
 ################## v4(pT) ##########33
 v4_pT05=d405/(cn405**0.5)
-np.savetxt('../results/211_v4_pT05.dat',v4_pT05,fmt='%s',newline='\n')
+np.savetxt('../results/{}_v4_pT05.dat'.format(pid),v4_pT05,fmt='%s',newline='\n')
 
 
 
