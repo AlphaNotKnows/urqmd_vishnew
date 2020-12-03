@@ -44,31 +44,37 @@ for kk in range(0,Nevent):
             # pion
             for ppp in range (lstep):
                 # kaon
-                vQphi = phi[:][
-                    (vabs_ID==pid) & (charge>0) & (eta < 2.0)& (eta > 0.0)  & (ppp*0.1 < pT) & (pT < (ppp+1)*0.1)# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                ]
-                vQM=vQphi.size
-                if vQM==0:   
-                   vQQn = np.zeros(3)
-                else:
-                   vQQn=np.exp(np.outer(1j*Qn_to_compute, vQphi)).sum(axis=1)
-                # output the Qn
-                phi66 = open('M_for_vn_BPOIs.txt', 'a')
-                phi66.write(str(vQM))
-                phi66.write("\n")
-                phi66.close()
+               vQphi=phi
+               if (pid==0):
+                  vQphi = phi[:][
+                    (charge>0) & (eta < 2.0)& (eta > 0.0)  & (ppp*0.1 < pT) & (pT < (ppp+1)*0.1)# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                  ]
+               else :
+                  vQphi = phi[:][
+                     (vabs_ID==pid) & (charge>0) & (eta < 2.0)& (eta > 0.0)  & (ppp*0.1 < pT) & (pT < (ppp+1)*0.1)# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                  ]
+               vQM=vQphi.size
+               if vQM==0:   
+                  vQQn = np.zeros(3)
+               else:
+                  vQQn=np.exp(np.outer(1j*Qn_to_compute, vQphi)).sum(axis=1)
+               # output the Qn
+               phi66 = open('M_for_vn_BPOIs.txt', 'a')
+               phi66.write(str(vQM))
+               phi66.write("\n")
+               phi66.close()
 
-                phi7 = open('Qn_vn_imag_BPOIs.txt', 'a')
-                for l in range(int(len(vQQn))):
-                    phi7.write(str(vQQn[l].imag))
-                    phi7.write("\n")
-                phi7.close()
-            
-                phi7 = open('Qn_vn_real_BPOIs.txt', 'a')
-                for l in range(int(len(vQQn))):
-                    phi7.write(str(vQQn[l].real))
-                    phi7.write("\n")
-                phi7.close()
+               phi7 = open('Qn_vn_imag_BPOIs.txt', 'a')
+               for l in range(int(len(vQQn))):
+                  phi7.write(str(vQQn[l].imag))
+                  phi7.write("\n")
+               phi7.close()
+         
+               phi7 = open('Qn_vn_real_BPOIs.txt', 'a')
+               for l in range(int(len(vQQn))):
+                  phi7.write(str(vQQn[l].real))
+                  phi7.write("\n")
+               phi7.close()
 
 
 

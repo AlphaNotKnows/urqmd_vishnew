@@ -3,6 +3,7 @@
 import argparse
 import collections
 import re
+import sys
 
 import numpy as np
 import h5py

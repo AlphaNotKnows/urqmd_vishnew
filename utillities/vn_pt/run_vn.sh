@@ -1,20 +1,31 @@
-#!bin/bash
+#!/bin/bash
 #rm EVENTS_HEADFILE.dat
 rm M_for_*.txt
 rm Qn_*.txt
-rm -rf ../Outputbyevent
+if [ -f "../Outputbyevent" ] ; then
+  rm -rf ../Outputbyevent
+fi
 mkdir ../Outputbyevent
-rm -rf ../results
+if [ -f "../results" ] ; then
+  rm -rf ../results
+fi
 mkdir ../results
-if [ !-e "vn_format" ] ; then
+if [ ! -x "./vn_format" ] ; then
+  echo "compile vn_format"
   g++ vn_format.cpp -o vn_format -O3 -std=c++11
 fi
+echo "begin vn_format"
 ./vn_format
-pid = 106
+export pid=$1
+echo "begin compute-v2"
 python3 compute-v2
+echo "begin compute-v2a"
 python3 compute-v2a
+echo "begin compute-apois"
 python3 compute-apois $pid
+echo "begin compute-bpois"
 python3 compute-bpois $pid
+echo "begin vn_pt_total"
 python3 vn_pt_total.py $pid
 
 
