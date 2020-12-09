@@ -1,20 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-PHOBOS=np.loadtxt("/home/qinjian/research/simulation/urqmd_vishnew/utillities/dNdy/central_AuAu200.txt")
-central=PHOBOS[:,0]
-ex_p=PHOBOS[:,1]
-error_p=PHOBOS[:,2]
-ex_pi=PHOBOS[:,3]
-error_pi=PHOBOS[:,4]
-ex_K=PHOBOS[:,5]
-error_K=PHOBOS[:,6]
+PHINIX=np.loadtxt("/home/qinjian/research/simulation/urqmd_vishnew/utillities/dNdy/central_AuAu200.txt")
+central=PHINIX[:,0]
+ex_p=PHINIX[:,1]
+error_p=PHINIX[:,2]
+ex_pi=PHINIX[:,3]
+error_pi=PHINIX[:,4]
+ex_K=PHINIX[:,5]
+error_K=PHINIX[:,6]
 
 fig=plt.figure()
 ax=fig.add_axes([0.1,0.1,0.8,0.8])
-ax.errorbar(central,ex_p,yerr=error_p,label='PHOBOS p',fmt='o',ms=2)
-ax.errorbar(central,ex_pi,yerr=error_pi,label='PHOBOS pi',fmt='o',ms=2)
-ax.errorbar(central,ex_K,yerr=error_K,label='PHOBOS K',fmt='o',ms=2)
+ax.errorbar(central,ex_p,yerr=error_p,label='PHINIX p',fmt='o',ms=2)
+ax.errorbar(central,ex_pi,yerr=error_pi,label='PHINIX pi',fmt='o',ms=2)
+ax.errorbar(central,ex_K,yerr=error_K,label='PHINIX K',fmt='o',ms=2)
 ax.set_yscale('log')
 
 
