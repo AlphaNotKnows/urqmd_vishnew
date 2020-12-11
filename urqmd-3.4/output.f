@@ -101,28 +101,22 @@ c 303  format(a20,i3,a15,e10.4,a15,e10.4,a15,e10.4)
  303  format(a20,i3,a15,e11.4,a15,e11.4,a15,e11.4)
 
 c standard particle information vector
- 201  format(9e16.8,i11,2i3,i9,i5,i4)
-cLHC 201  format(9e24.16,i11,2i3,i9,i5,i4)
+ 201  format(9e24.16,i11,2i3,i9,i5,i4)
 
 c special output for cto40 (restart of old event)
- 210  format(9e16.8,i11,2i3,i9,i5,i10,3e16.8,i8)
-cLHC 210  format(9e24.16,i11,2i3,i9,i5,i10,3e24.16,i8)
+ 210  format(9e24.16,i11,2i3,i9,i5,i10,3e24.16,i8)
 
 c special output for mmaker
- 203  format(9e16.8,i5,2i3,i6,i5,i4,i5,2e16.8)
-cLHC 203  format(9e24.16,i5,2i3,i6,i5,i4,i5,2e24.16)
+ 203  format(9e24.16,i5,2i3,i6,i5,i4,i5,2e24.16)
 
 c same with index for file15
- 501  format(i5,9e16.8,i11,2i3,i9,i5,i3,i15)
-cLHC 501  format(i5,9e24.16,i11,2i3,i9,i5,i3,i15)
+ 501  format(i5,9e24.16,i11,2i3,i9,i5,i3,i15)
 
 c enhanced file16
- 503  format(9e15.7,i11,2i3,i9,i5,i4,2i4)
-cLHC 503  format(9e24.16,i11,2i3,i9,i5,i4,2i4)
+ 503  format(9e24.16,i11,2i3,i9,i5,i4,2i4)
 
 c same including freeze-out coordinates
- 213  format(9e16.8,i11,2i3,i9,i5,i4,8e16.8)
-cLHC 213  format(9e24.16,i11,2i3,i9,i5,i4,8e24.16)
+ 213  format(9e24.16,i11,2i3,i9,i5,i4,8e24.16)
 
 c collsision stats for file14
  202  format(8i8)

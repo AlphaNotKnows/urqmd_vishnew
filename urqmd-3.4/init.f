@@ -23,7 +23,7 @@ cccccCcc1ccccccccc2ccccccccc3ccccccccc4ccccccccc5ccccccccc6ccccccccc7cc
       call params
 
 c.. display logo
-      call urqmdlogo
+      ! call urqmdlogo
 
 c read input file
       call input(io)

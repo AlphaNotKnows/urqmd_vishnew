@@ -18,6 +18,14 @@ ax.errorbar(central,ex_K,yerr=error_K,label='PHINIX K',fmt='o',ms=2)
 ax.set_yscale('log')
 
 
+data=np.loadtxt("/home/qinjian/research/simulation/urqmd_vishnew/utillities/dNdy/dNdeta1_0.28_1.0.txt")
+p=data[:,2]
+pi=data[:,4]
+K=data[:,6]
+ax.plot(central,p,label='p bulk')
+ax.plot(central,pi,label='pi bulk')
+ax.plot(central,K,label='K bulk')
+
 data=np.loadtxt("/home/qinjian/research/simulation/urqmd_vishnew/utillities/dNdy/dNdeta0_0.28_1.0.txt")
 p=data[:,2]
 pi=data[:,4]

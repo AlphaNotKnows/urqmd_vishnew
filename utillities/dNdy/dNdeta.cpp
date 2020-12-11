@@ -85,10 +85,10 @@ int main(int argc,char*argv[]){
         dNdeta_pi_neg_this[bin_id]++;
       }
       // count K+-
-      else if(pid==106){
+      else if(pid==106&&iso3==1){
         dNdeta_K_pos_this[bin_id]++;
       }
-      else if(pid==-106){
+      else if(pid==-106&&iso3==-1){
         dNdeta_K_neg_this[bin_id]++;
       }
     }
