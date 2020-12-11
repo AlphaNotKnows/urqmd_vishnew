@@ -28,6 +28,6 @@ int main(int argc,char *argv[]){
   }
   std::cout<<"energy : "<<energy0<<"  energy on tau_0 : "<<energy_tau<<" secondaries on tau_0 : "<<secondaries.size()<<std::endl;
   energy_momentum.CalFlow();
-  write2(energy_momentum);
+  // write2(energy_momentum);
   WriteFlow2(energy_momentum);
 }
