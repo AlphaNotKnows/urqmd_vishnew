@@ -17,8 +17,15 @@ namespace Transform{
    * @ para[in] tensor : result energy tensor
   */
   void print3(const std::string&output_file,const EPTensor&tensor);
+  /**do Lorentz transformation from (p[0],p[1],p[2],p[3]) to (E,px,py,pz)*/
+  void LorentzTransform(const double beta[4],double p[4]);
   /** remove the file header in urqmd file*/
   void remove_header(std::istream&input);
+  /** calculate the sum of momentum and get (beta[0],beta)
+   * @para[in] beta: the vector to store beta
+   * @para[in] input_file : the name of the data file
+  */
+  void CalBeta(double beta[4],const std::string&input_file=Ex_input_file);
   /** search the particle on tau_0
    * @para[in] secondaries : the vector<Particle> which store all particles on tau_0
    * @para[in] input_file : the name of the data file

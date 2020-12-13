@@ -1,4 +1,4 @@
-#include "process.h"
+#include "include/process.h"
 namespace Transform{
   void remove_header(std::istream&input){
     std::string data_line;
@@ -8,8 +8,56 @@ namespace Transform{
       data_line.clear();
     }
   }
+
+  void LorentzTransform(const double beta[4],double p[4]){
+    double beta2=beta[1]*beta[1]+beta[2]*beta[2]+beta[3]*beta[3];
+    double beta_p=beta[1]*p[1]+beta[2]*p[2]+beta[3]*p[3];
+    double C=(beta[0]-1)/beta2;
+    double E=p[0]*beta[0]-beta[0]*beta_p;
+    double px=-beta[0]*beta[1]*p[0]+p[1]+C*beta[1]*beta_p;
+    double py=-beta[0]*beta[2]*p[0]+p[2]+C*beta[2]*beta_p;
+    double pz=-beta[0]*beta[3]*p[0]+p[3]+C*beta[3]*beta_p;
+    p[0]=E,p[1]=px,p[2]=py,p[3]=pz;
+  }
+
+  void CalBeta(double beta[4],const std::string&input_file){
+    std::ifstream input(input_file.c_str());
+    std::string data_line;
+    //remove the header
+    remove_header(input);
+    unsigned secondaries_num,cal_time;
+    getline(input,data_line);
+    std::stringstream input_line;
+    input_line.str(data_line);
+    input_line>>secondaries_num>>cal_time;
+    //remove collision line
+    getline(input,data_line);
+    //only calculate the first time
+    double p_sum[4]={0};
+    for(unsigned i=0;i<secondaries_num;i++){
+      //clear the stream
+      input_line.clear();
+      data_line.clear();
+      ///get the data
+      getline(input,data_line);
+      input_line.str(data_line);
+      double x[4],p[4];
+      for(unsigned j=0;j<4;j++)input_line>>x[j];
+      for(unsigned j=0;j<4;j++){
+        input_line>>p[j];
+        p_sum[j]+=p[j];
+      }
+    }
+    for(int i=1;i<4;i++){
+      beta[i]=p_sum[i]/p_sum[0];
+    }
+    beta[0]=1/std::sqrt(1-beta[1]*beta[1]-beta[2]*beta[2]-beta[3]*beta[3]);
+    input.close();
+  }
   
   unsigned search_tau(std::vector<Particle>&secondaries,const std::string&input_file){
+    double beta[4]={0};
+    CalBeta(beta);
     std::ifstream input(input_file.c_str());
     std::string data_line;
     //remove the header
@@ -35,6 +83,7 @@ namespace Transform{
         for(unsigned j=0;j<4;j++)input_line>>x[j];
         for(unsigned j=0;j<4;j++)input_line>>p[j];
         input_line>>mass>>itype;
+        LorentzTransform(beta,p);
         //judge and push the particle on the surface,if the last time, let it all freestreaming
         Particle this_particle(p,x,mass,itype);
         double delta_t=-1;
