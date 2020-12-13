@@ -22,10 +22,17 @@ data=np.loadtxt("/home/qinjian/research/simulation/urqmd_vishnew/utillities/dNdy
 p=data[:,2]
 pi=data[:,4]
 K=data[:,6]
-ax.plot(central,p,label='p')
-ax.plot(central,pi,label='pi')
-ax.plot(central,K,label='K')
+ax.plot(central,p,label='p Edec=1.0')
+ax.plot(central,pi,label='pi Edec=1.0')
+ax.plot(central,K,label='K Edec=1.0')
+
+data=np.loadtxt("/home/qinjian/research/simulation/urqmd_vishnew/utillities/dNdy/dNdeta0_0.3_0.25.txt")
+p=data[:,2]
+pi=data[:,4]
+K=data[:,6]
+ax.plot(central,p,label='p Edec=0.25')
+ax.plot(central,pi,label='pi Edec=0.25')
+ax.plot(central,K,label='K Edec=0.25')
 
 ax.legend()
-ax.set_title("Edec=1GeV")
 plt.show()
