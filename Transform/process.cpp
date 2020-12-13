@@ -62,10 +62,15 @@ namespace Transform{
     std::string data_line;
     //remove the header
     remove_header(input);
+    //sum over all momentum in CMS
+    double p_sum[4]={0};
+    //count the time step in the input
+    int time_step=0;
     unsigned secondaries_num,cal_time;
     while (getline(input,data_line)){
       //get the number of secondaries
       if(input.eof())break;
+      time_step++;
       std::stringstream input_line;
       input_line.str(data_line);
       input_line>>secondaries_num>>cal_time;
@@ -84,6 +89,10 @@ namespace Transform{
         for(unsigned j=0;j<4;j++)input_line>>p[j];
         input_line>>mass>>itype;
         LorentzTransform(beta,p);
+        LorentzTransform(beta,x);
+        for(int k=0;k<4;k++){
+          p_sum[k]+=p[k];
+        }
         //judge and push the particle on the surface,if the last time, let it all freestreaming
         Particle this_particle(p,x,mass,itype);
         double delta_t=-1;
@@ -98,6 +107,14 @@ namespace Transform{
         }
       }
     }
+    for(int i=0;i<4;i++){
+      p_sum[i]/=time_step;
+    }
+    // std::cout<<time_step<<std::endl;
+    // for(int i=0;i<4;i++){
+    //   std::cout<<p_sum[i]<<' ';
+    // }
+    // std::cout<<std::endl;
     input.close();
     return secondaries_num;
   }
@@ -159,12 +176,16 @@ namespace Transform{
   }
 
   double search_energy(const std::string &input_file){
+    double beta[4]={0};
+    CalBeta(beta);
     std::ifstream input(input_file.c_str());
     std::string data_line;
     //remove the header
     remove_header(input);
     unsigned secondaries_num,cal_time;
     double energy=0;
+    double p_sum[4]={0};
+    double x_sum[4]={0};
     while (getline(input,data_line)){
       //get the number of secondaries
       if(input.eof())break;
@@ -184,11 +205,17 @@ namespace Transform{
         int itype;
         for(unsigned j=0;j<4;j++)input_line>>x[j];
         for(unsigned j=0;j<4;j++)input_line>>p[j];
+        LorentzTransform(beta,p);
+        LorentzTransform(beta,x);
         input_line>>mass>>itype;
         energy+=p[0];
+        for(int k=1;k<4;k++){
+          p_sum[k]+=p[k];
+        }
       }
       break;
     }
+    std::cout<<"px="<<p_sum[1]<<" py="<<p_sum[2]<<" pz="<<p_sum[3]<<std::endl;
     input.close();
     return energy;
 
