@@ -11,7 +11,6 @@ export ftn16=test.f16
 export ftn19=urqmd_result19
 export ftn20=test.f20
 
-rm test*
 
 # check if file lhc exists, or if user specifically asked for lhc run:
 if [ -e lhc ] && [ "$run" != "all" ] || [ "$run" = "lhc" ]; then
@@ -31,3 +30,5 @@ else
                 exit 1
         fi
 fi
+
+rm test*

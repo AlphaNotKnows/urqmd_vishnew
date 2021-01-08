@@ -57,7 +57,7 @@ namespace Transform{
   
   unsigned search_tau(std::vector<Particle>&secondaries,const std::string&input_file){
     double beta[4]={0};
-    CalBeta(beta);
+    // CalBeta(beta);
     std::ifstream input(input_file.c_str());
     std::string data_line;
     //remove the header
@@ -88,8 +88,8 @@ namespace Transform{
         for(unsigned j=0;j<4;j++)input_line>>x[j];
         for(unsigned j=0;j<4;j++)input_line>>p[j];
         input_line>>mass>>itype;
-        LorentzTransform(beta,p);
-        LorentzTransform(beta,x);
+        // LorentzTransform(beta,p);
+        // LorentzTransform(beta,x);
         for(int k=0;k<4;k++){
           p_sum[k]+=p[k];
         }
