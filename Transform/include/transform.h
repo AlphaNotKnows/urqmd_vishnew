@@ -31,6 +31,10 @@ extern std::string Ex_output_path;
 extern std::string Ex_parameter_file;
 /// normalization in EPTensor
 extern double Ex_K;
+// judge if output initial for vishnew
+extern bool Ex_Vishnew;
+// judge if output initial for MUSIC
+extern bool Ex_MUSIC;
 /// Pi
 extern const double Pi;
 /**HbarC=GeV*fm*/

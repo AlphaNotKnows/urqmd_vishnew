@@ -3,9 +3,9 @@
 #include"EPTensor.h"
 namespace Transform{
 
-  // EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(4,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0)))){}
+  EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(4,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0)))){}
 
-    EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(4,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(1,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(1,0)))){}
+  // EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(4,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(1,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(1,0)))){}
 
   void EPTensor::AddParticle(const Particle&particle){
     //determine the step
@@ -21,8 +21,8 @@ namespace Transform{
     unsigned x_up_bin=search_bin(x0+Ex_range*Ex_R_ver,x_down_,x_up_,x_bin_);
     unsigned y_down_bin=search_bin(y0-Ex_range*Ex_R_ver,y_down_,y_up_,y_bin_);
     unsigned y_up_bin=search_bin(y0+Ex_range*Ex_R_ver,y_down_,y_up_,y_bin_);
-    // unsigned eta_down_bin=search_bin(eta0-Ex_range*Ex_R_eta,eta_down_,eta_up_,eta_bin_);
-    // unsigned eta_up_bin=search_bin(eta0+Ex_range*Ex_R_eta,eta_down_,eta_up_,eta_bin_);
+    unsigned eta_down_bin=search_bin(eta0-Ex_range*Ex_R_eta,eta_down_,eta_up_,eta_bin_);
+    unsigned eta_up_bin=search_bin(eta0+Ex_range*Ex_R_eta,eta_down_,eta_up_,eta_bin_);
     //get the momentum in {tau,x,y,eta}, here the definition follow arxiv:1205.5019
     auto p0=particle.momentum().Minkow();
     double m_T=std::sqrt(p0[0]*p0[0]-p0[3]*p0[3]);
@@ -38,11 +38,11 @@ namespace Transform{
       double delta_x=x_down_+i*dx-x0;
       for(unsigned j=y_down_bin;j<=y_up_bin;j++){
         double delta_y=y_down_+j*dy-y0;
-        // for(unsigned k=eta_down_bin;k<=eta_up_bin;k++){
-        for(unsigned k=0;k<1;k++){
+        for(unsigned k=eta_down_bin;k<=eta_up_bin;k++){
+        // for(unsigned k=0;k<1;k++){
           //calculator the factor local in x,y,eta
-          // double delta_eta=eta_down_+k*deta-eta0;
-          double delta_eta=eta0;
+          double delta_eta=eta_down_+k*deta-eta0;
+          // double delta_eta=eta0;
           double exponent=-( (delta_x*delta_x+delta_y*delta_y)/(2*Ex_R_ver*Ex_R_ver) + (delta_eta*delta_eta)/(2*Ex_R_eta*Ex_R_eta) );
           double local_factor=factor*std::exp(exponent);
           //loop over 4*4 tensor
@@ -89,17 +89,17 @@ namespace Transform{
       //determine the output file name
       std::string output_file=output_path+"t0";
       output_file+=('0'+comp);
-      output_file+=".dat";
+      output_file+=".txt";
       std::ofstream output(output_file.c_str(),std::ios::binary);
       for(unsigned i=0;i<Ex_M_bin[1];i++){
         for(unsigned j=0;j<Ex_M_bin[2];j++){
           //determine the eta=0 bin
           // unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
           unsigned k=0;
-          // transfrom from GeV/fm^3 to fm^-4
-          double middle=tensor[0][comp][i][j][k]/HbarC;
-          output.write((char*)&middle,sizeof(middle));
+          double middle=tensor[0][comp][i][j][k];
+          output<<' ';
         }
+        output<<std::endl;
       }
       output.close();
     }
@@ -110,17 +110,17 @@ namespace Transform{
       //determine the output file name
       std::string output_file=output_path+"t0";
       output_file+=('0'+comp);
-      output_file+=".dat";
-      std::ofstream output(output_file.c_str(),std::ios::binary);
+      output_file+=".txt";
+      std::ofstream output(output_file.c_str());
       for(unsigned i=0;i<Ex_M_bin[1];i++){
         for(unsigned j=0;j<Ex_M_bin[2];j++){
         //  for(unsigned k=0;k<Ex_M_bin[3];k++){
         for(unsigned k=0;k<1;k++){
-          // transfrom from GeV/fm^3 to fm^-4
-          double middle=tensor[0][comp][i][j][k]/HbarC;
-          output.write((char*)&middle,sizeof(middle));
+          double middle=tensor[0][comp][i][j][k];
+          output<<middle<<' ';
          }
         }
+        output<<std::endl;
       }
       output.close();
     }
@@ -129,30 +129,22 @@ namespace Transform{
   void WriteFlow2(const EPTensor&tensor,const std::string&output_path){
     auto flow=tensor.GetFlow();
     std::string output_file[3];
-    output_file[0]=output_path+"ed.dat";
-    output_file[1]=output_path+"u1.dat";
-    output_file[2]=output_path+"u2.dat";
+    output_file[0]=output_path+"ed.txt";
+    output_file[1]=output_path+"u1.txt";
+    output_file[2]=output_path+"u2.txt";
     for(unsigned comp=0;comp<3;comp++){
-      std::ofstream output(output_file[comp].c_str(),std::ios::binary);
+      std::ofstream output(output_file[comp].c_str());
       for(unsigned i=0;i<Ex_M_bin[1];i++){
         for(unsigned j=0;j<Ex_M_bin[2];j++){
           // unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
           unsigned k=0;
-          // transfrom ed from GeV/fm^3 to fm^-4 and u1,u2 is unit less
           double middle;
-          if(comp==0)middle=flow[comp][i][j][k]/HbarC;
-          else middle=flow[comp][i][j][k];
-          output.write((char*)&middle,sizeof(middle));
+          // if(comp==0)middle=flow[comp][i][j][k]/HbarC;
+          // else middle=flow[comp][i][j][k];
+          output<<flow[comp][i][j][k];
         }
+        output<<std::endl;
       }
-      // std::ofstream output(output_file[comp].c_str());
-      // for(unsigned i=0;i<Ex_M_bin[1];i++){
-      //   for(unsigned j=0;j<Ex_M_bin[2];j++){
-      //     unsigned k=(Ex_M_bin[3]+1)/2;
-      //     output<<flow[comp][i][j][k]<<' ';
-      //   }
-      //   output<<std::endl;
-      // }
       output.close();
     }
   }

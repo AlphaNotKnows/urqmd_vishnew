@@ -288,10 +288,10 @@ c----------------changed by J.Liu-----------------------------------------------
         tolerance = 1D-10
         ed_max = 0.0   !
         u_regulated = 0.D0
-        OPEN(UNIT = 21, FILE = 'Initial/u1.dat', ACCESS="STREAM",
-     &      STATUS = 'OLD', FORM = 'UNFORMATTED') ! read from Landau matched profile
-        OPEN(UNIT = 22, FILE = 'Initial/u2.dat', ACCESS="STREAM",
-     &      STATUS = 'OLD', FORM = 'UNFORMATTED') ! read from Landau matched profile
+        OPEN(UNIT = 21, FILE = 'Initial/u1.txt', ACCESS="STREAM",
+     &      STATUS = 'OLD', FORM = 'FORMATTED') ! read from Landau matched profile
+        OPEN(UNIT = 22, FILE = 'Initial/u2.txt', ACCESS="STREAM",
+     &      STATUS = 'OLD', FORM = 'FORMATTED') ! read from Landau matched profile
 
 c find maximum energy density to do the flow velocity regulation
 C         do 2607 K = NZ0,NZ
@@ -349,8 +349,8 @@ C====Input the initial condition from file====
             If (InitialURead .eq. 0) then
               OPEN(2,file='Initial/InitialEd.dat',status='old')
             else
-              OPEN(2,file='Initial/ed.dat',ACCESS="STREAM",
-     &         status='old', FORM = 'UNFORMATTED')
+              OPEN(2,file='Initial/ed.txt',ACCESS="STREAM",
+     &         status='old', FORM = 'FORMATTED')
             Endif
 
             do 2562 I = NXPhy0,NXPhy

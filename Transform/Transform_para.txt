@@ -7,5 +7,7 @@ y -13 13 130 // y_range: y_down y_up y_bin ,with bin is (2*val)+1
 eta -13 13 130 // eta_range: eta_down eta_up eta_bin ,with bin is (2*val)+1
 range 3 //range of particle impact
 input urqmd_result14 //input file name
-output Initial //output file name
-K 1.6 // normalization factor of EPTensor
+output Initial //output file dir
+K 1.5 // normalization factor of EPTensor
+VISHNEW 1 // output vishnew Initial: ed.dat u1.dat u2.dat
+MUSIC 1 // output MUSIC Initial 
