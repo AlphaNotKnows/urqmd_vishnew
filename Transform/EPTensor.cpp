@@ -59,8 +59,8 @@ namespace Transform{
   void EPTensor::CalFlow(){
     for(unsigned i=0;i<x_bin_;i++){
       for(unsigned j=0;j<y_bin_;j++){
-        // for(unsigned k=0;k<eta_bin_;k++){
-          for(unsigned k=0;k<1;k++){
+        for(unsigned k=0;k<eta_bin_;k++){
+          // for(unsigned k=0;k<1;k++){
           //store the T0\nu for simplicity
           double T0[4]={0};
           for(unsigned nu=0;nu<4;nu++){
@@ -94,10 +94,10 @@ namespace Transform{
       for(unsigned i=0;i<Ex_M_bin[1];i++){
         for(unsigned j=0;j<Ex_M_bin[2];j++){
           //determine the eta=0 bin
-          // unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
-          unsigned k=0;
+          unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
+          // unsigned k=0;
           double middle=tensor[0][comp][i][j][k];
-          output<<' ';
+          output<<middle<<' ';
         }
         output<<std::endl;
       }
@@ -136,12 +136,12 @@ namespace Transform{
       std::ofstream output(output_file[comp].c_str());
       for(unsigned i=0;i<Ex_M_bin[1];i++){
         for(unsigned j=0;j<Ex_M_bin[2];j++){
-          // unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
-          unsigned k=0;
+          unsigned k=search_bin(0,Ex_M_down[3],Ex_M_up[3],Ex_M_bin[3]);
+          // unsigned k=0;
           double middle;
           // if(comp==0)middle=flow[comp][i][j][k]/HbarC;
           // else middle=flow[comp][i][j][k];
-          output<<flow[comp][i][j][k];
+          output<<flow[comp][i][j][k]<<' ';
         }
         output<<std::endl;
       }

@@ -15,7 +15,7 @@ int main(int argc,char *argv[]){
   //initialize the parameter
   initialize(Ex_parameter_file);
   EPTensor energy_momentum;
-  // print_Ex();
+  print_Ex();
   std::vector<Particle> secondaries;
   search_tau(secondaries);
   // double energy0=search_energy();

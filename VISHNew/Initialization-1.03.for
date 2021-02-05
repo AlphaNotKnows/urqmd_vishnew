@@ -308,8 +308,8 @@ C      &   'regulate u: ', u_regulated
 
         do 2561 K = NZ0,NZ
         do 2561 I = NXPhy0,NXPhy
-          read(21)  (U1(I,J,K),J=NYPhy0,NYPhy)
-          read(22)  (U2(I,J,K),J=NYPhy0,NYPhy)        
+          read(21,*)  (U1(I,J,K),J=NYPhy0,NYPhy)
+          read(22,*)  (U2(I,J,K),J=NYPhy0,NYPhy)        
 
           do J=NYPhy0, NYPhy
 c Regulate dilute region where energy density is small but u_mu is very large
@@ -354,7 +354,7 @@ C====Input the initial condition from file====
             Endif
 
             do 2562 I = NXPhy0,NXPhy
-              read(2)  (Ed(I,J,NZ0), J=NYPhy0,NYPhy)
+              read(2,*)  (Ed(I,J,NZ0), J=NYPhy0,NYPhy)
 2562        continue
             Ed=Ed/HbarC
             close(2)
