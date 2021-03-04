@@ -15,19 +15,28 @@ int main(int argc,char *argv[]){
   //initialize the parameter
   initialize(Ex_parameter_file);
   EPTensor energy_momentum;
-  print_Ex();
-  std::vector<Particle> secondaries;
-  search_tau(secondaries);
-  // double energy0=search_energy();
-  double energy_tau=0;
-  for(unsigned i=0;i<secondaries.size();i++){
-    energy_tau+=secondaries[i].momentum().Minkow()[0];
+  if(Ex_DEBUG){
+    print_Ex();
   }
+  //secondaries is the vector to store all on tau_0, secondaries_cut store all particles exceed eta_cut
+  std::vector<Particle> secondaries,secondaries_cut;
+  search_tau(secondaries);
+  if(Ex_DEBUG){
+    double energy0=search_energy();
+    double energy_tau=0;
+    for(unsigned i=0;i<secondaries.size();i++){
+      energy_tau+=secondaries[i].momentum().Minkow()[0];
+    }
+    std::cout<<"energy : "<<energy0<<"  energy on tau_0 : "<<energy_tau<<" secondaries on tau_0 : "<<secondaries.size()<<std::endl;
+  }
+
+  //remove over eta_cut
+  remove_eta_cut(secondaries,secondaries_cut);
+
+  //use all the particle on tau_0 within eta_cut to generate energy_momentum
   for(unsigned i=0;i<secondaries.size();i++){
     energy_momentum.AddParticle(secondaries[i]);
   }
-  // std::cout<<"energy : "<<energy0<<"  energy on tau_0 : "<<energy_tau<<" secondaries on tau_0 : "<<secondaries.size()<<std::endl;
   energy_momentum.CalFlow();
-  // write2(energy_momentum);
   WriteFlow2(energy_momentum);
 }

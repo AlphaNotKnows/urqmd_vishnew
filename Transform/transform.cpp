@@ -18,15 +18,18 @@ namespace Transform{
   double Ex_M_down[4]={0.,-10.,-10.,-10. };
   double Ex_M_up[4]={4.,10.,10.,10. };
   double Ex_Dx[4]={0.1,0.2,0.2,0.2 };
+  double Ex_eta_cut[2]={-5,5};
   double Ex_range=3;
   double Ex_K=1.6;
   bool Ex_Vishnew=0;
   bool Ex_MUSIC=0;
+  bool Ex_DEBUG=0;
   const double Pi=3.14159265358979323846264338328;
   const double HbarC=0.19733;
   std::string Ex_input_file="urqmd_result14";
   std::string Ex_output_path=".";
   std::string Ex_parameter_file="Transform_para.txt";
+  std::string Ex_eta_cut_file="eta_cut_particle.txt";
 
   void initialize(const std::string&parameter_file){
     std::ifstream parameter(parameter_file.c_str());
@@ -52,12 +55,14 @@ namespace Transform{
       else if(parameter_name=="y")input_line>>Ex_M_down[2]>>Ex_M_up[2]>>Ex_M_bin[2];
       else if(parameter_name=="eta")input_line>>Ex_M_down[3]>>Ex_M_up[3]>>Ex_M_bin[3];
       else if(parameter_name=="t")input_line>>Ex_M_down[0]>>Ex_M_up[0]>>Ex_M_bin[0];
+      else if(parameter_name=="eta_cut")input_line>>Ex_eta_cut[0]>>Ex_eta_cut[1];
       else if(parameter_name=="range")input_line>>Ex_range;
       else if(parameter_name=="input")input_line>>Ex_input_file;
       else if(parameter_name=="output")input_line>>Ex_output_path;
       else if(parameter_name=="K")input_line>>Ex_K;
       else if(parameter_name=="VISHNEW")input_line>>Ex_Vishnew;
       else if(parameter_name=="MUSIC")input_line>>Ex_MUSIC;
+      else if(parameter_name=="DEBUG")input_line>>Ex_DEBUG;
       else{
         std::cout<<parameter_name<<" is invalid parameter"<<std::endl;
       }

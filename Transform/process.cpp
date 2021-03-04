@@ -221,6 +221,38 @@ namespace Transform{
 
   }
 
+  double remove_eta_cut(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut,const double* eta_cut){
+    //energy within eta_cut
+    double energy=0;
+    double secondaries_num_sum=secondaries.size();
+    auto ii=secondaries.begin();
+    while(ii!=secondaries.end()){
+      double eta=ii->space().Milne()[3];
+      if(eta<eta_cut[0]||eta>eta_cut[1]){
+        secondaries_cut.push_back(*ii);
+        secondaries.erase(ii);
+      }
+      else{
+        ii++;
+        energy+=ii->momentum().Minkow()[0];
+      }
+    }
+    if(secondaries_num_sum!=(secondaries.size()+secondaries_cut.size())){
+      std::cerr<<"eta cut is wrong"<<std::endl;
+      exit(-1);
+    }
+    if(Ex_DEBUG){
+      std::cout<<"secondaries within eta cut "<<secondaries.size()<<std::endl;
+      std::cout<<"secondaries over eta cut "<<secondaries.size()<<std::endl;
+      std::cout<<"energy within eta cut "<<energy<<std::endl;
+    }
+    return energy;
+  }
+
+  void OSCAR_particle(std::vector<Particle>&secondaries,std::string filename){
+    
+  }
+
 
 
 }

@@ -42,6 +42,16 @@ namespace Transform{
   void search_spectator(std::vector<Particle>&secondaries,const std::string&output_path=Ex_output_path);
   /**search the energy at t0*/
   double search_energy(const std::string &input_file=Ex_input_file);
+  /**remove all particles over eta_cut
+   * @para[in] secondaries: the vector to store all secondaries and will be remove all secondaries over eta_cut
+   * @para[in] secondaries_cut: the vector to store all secondaries out of eta_cut
+   * @para[in] eta_cut: LB[0]<RB[1]
+   * @return the energy within eta_cut
+  */
+  double remove_eta_cut(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut,const double* eta_cut=Ex_eta_cut); 
+  /**combile particle vector to oscar1997A format*/
+  void OSCAR_particle(std::vector<Particle>&secondaries,std::string filename);
+  
 }
 
 #endif

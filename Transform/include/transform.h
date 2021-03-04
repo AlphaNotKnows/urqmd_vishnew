@@ -8,6 +8,8 @@
 #include <sstream>
 namespace Transform{
 ///basic constants,all extern variables begin with Ex_
+/// name of parameter file
+extern std::string Ex_parameter_file;
 ///surface tau_0
 extern double Ex_Tau_0;
 ///R_ver
@@ -21,20 +23,24 @@ extern double Ex_M_down[4];
 extern double Ex_M_up[4];
 /// bin in Minkow or Milne coordinate
 extern unsigned Ex_M_bin[4];
+/// eta_cut for output particle, LB[0],RB[1]
+extern double Ex_eta_cut[2];
 /// the range factor of nucleon
 extern double Ex_range;
 /// name of input data file
 extern std::string Ex_input_file;
 /// path to record data
 extern std::string Ex_output_path;
-/// name of parameter file
-extern std::string Ex_parameter_file;
+/// file name of eta_cut
+extern std::string Ex_eta_cut_file;
 /// normalization in EPTensor
 extern double Ex_K;
-// judge if output initial for vishnew
+/// judge if output initial for vishnew
 extern bool Ex_Vishnew;
-// judge if output initial for MUSIC
+/// judge if output initial for MUSIC
 extern bool Ex_MUSIC;
+/// judge if DEBUG
+extern bool Ex_DEBUG;
 /// Pi
 extern const double Pi;
 /**HbarC=GeV*fm*/
