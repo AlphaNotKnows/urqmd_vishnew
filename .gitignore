@@ -1361,3 +1361,10 @@ PlayGround/iSS/results/samples_control_53122.dat
 PlayGround/iSS/results/samples_control_100333.dat
 PlayGround/iSS/results/samples_format.dat
 .gitignore
+PlayGround/transform/Initial/eta_cut_particle.txt
+PlayGround/osc2u/OSCAR.DAT
+PlayGround/osc2u/fort.14
+build/Transform/CMakeFiles/transform.dir/fortran.internal
+build/Transform/CMakeFiles/transform.dir/ityp2pdg.f.o
+build/Transform/CMakeFiles/transform.dir/blockres.f.o
+PlayGround/transform/Initial/eta_cut19.txt

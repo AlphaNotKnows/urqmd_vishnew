@@ -58,9 +58,11 @@ c 8*nmax*nmax + 40*nmax real*8
 c...
       integer   CTOption(numcto)
       character ctodc(numcto)*2
+      character CTOStrng(numcto)*60
 c...
       real*8    CTParam(numctp)
       character ctpdc(numctp)*2
+      character CTPStrg(numctp)*60
 
       common /options/CTOption,CTParam
       common /optstrings/ctodc,ctpdc

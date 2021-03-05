@@ -29,7 +29,6 @@ namespace Transform{
   std::string Ex_input_file="urqmd_result14";
   std::string Ex_output_path=".";
   std::string Ex_parameter_file="Transform_para.txt";
-  std::string Ex_eta_cut_file="eta_cut_particle.txt";
 
   void initialize(const std::string&parameter_file){
     std::ifstream parameter(parameter_file.c_str());

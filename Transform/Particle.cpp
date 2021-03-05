@@ -1,7 +1,5 @@
-#include "Particle.h"
+#include "include/Particle.h"
 namespace Transform{
-  Particle::Particle(double momentum[],double space[],double m,int itype):p_(momentum),x_(space),m_(m),type_(itype){}
-
 
   double cross_surface(const Particle&particle,double dt,double tau_0){
     if(particle.space().Milne()[0]>tau_0)return -1;
@@ -38,11 +36,11 @@ namespace Transform{
     for(unsigned i=0;i<4;i++){
       x[i]=particle.space().Minkow()[i]+velocity[i]*delta_t;
     }
-    return Particle(particle.momentum().Minkow(),x,particle.mass(),particle.type());
+    return Particle(particle.momentum().Minkow(),x,particle.GetMass(),particle.GetType(),particle.GetIso3(),particle.GetCharge(),particle.GetParent(),particle.GetN_coll(),particle.GetParent_type());
   }
 
   std::ostream& operator<<(std::ostream&output,const Particle&this_particle){
-    output<<"mass "<<this_particle.mass()<<','<<" type "<<this_particle.type()<<std::endl;
+    output<<"mass "<<this_particle.GetMass()<<','<<" type "<<this_particle.GetType()<<std::endl;
     output<<"velocity";
     double gamma=this_particle.momentum().Minkow()[0];
     for(int i=0;i<4;i++){

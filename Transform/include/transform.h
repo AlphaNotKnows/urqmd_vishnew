@@ -6,6 +6,7 @@
 #include<cmath>
 #include <string>
 #include <sstream>
+#include<iomanip>
 namespace Transform{
 ///basic constants,all extern variables begin with Ex_
 /// name of parameter file
@@ -31,8 +32,6 @@ extern double Ex_range;
 extern std::string Ex_input_file;
 /// path to record data
 extern std::string Ex_output_path;
-/// file name of eta_cut
-extern std::string Ex_eta_cut_file;
 /// normalization in EPTensor
 extern double Ex_K;
 /// judge if output initial for vishnew
@@ -65,6 +64,9 @@ void print_Ex();
    * @return the bin number of x
   */
   unsigned search_bin(double x,double x_down,double x_up,unsigned bin);
+  extern "C"{
+    int pdgid_(const int*itype,const int*iso3);
+  }
 }
 
 

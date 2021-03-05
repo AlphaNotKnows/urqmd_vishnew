@@ -5,7 +5,7 @@ t 0 4 20 // t_range: t_down t_up t_bin ,with bin is (2*val)+1
 x -13 13 65 // x_range: x_down x_up x_bin ,with bin is (2*val)+1
 y -13 13 65 // y_range: y_down y_up y_bin ,with bin is (2*val)+1
 eta -4 4 20 // eta_range: eta_down eta_up eta_bin ,with bin is (2*val)+1
-eta_cut -5 5 // output particle over eta_cut to eta_cut_particle.txt
+eta_cut -5 5 // output particle over eta_cut to eta_cut19.txt and eta_cut14.txt
 range 3 //range of particle impact
 input urqmd_result14 //input file name
 output Initial //output file dir

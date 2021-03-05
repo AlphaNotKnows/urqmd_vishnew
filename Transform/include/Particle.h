@@ -21,8 +21,14 @@ namespace Transform{
       double m_;
       ///particle type;
       int type_;
+      int iso3_;
+      int charge_;
+      int parent_;
+      int N_coll_;
+      int parent_type_;
   public:
-      Particle(double momentum[],double space[],double m,int itype);
+      Particle(const Particle&the):p_(the.momentum()),x_(the.space()),m_(the.GetMass()),type_(the.GetType()),iso3_(the.GetIso3()),charge_(the.GetCharge()),parent_(the.GetParent()),N_coll_(the.GetN_coll()),parent_type_(the.GetParent_type()){}
+      Particle(const double momentum[],const double space[],const double m,const int itype,const int iso3,const int charge,const int parent,const int N_coll,const int parent_type):p_(momentum),x_(space),m_(m),type_(itype),iso3_(iso3),charge_(charge),parent_(parent),N_coll_(N_coll),parent_type_(parent_type){}
       /**return the momentum*/
       Vector4&momentum(){return p_;}
       /**return the space coordinate*/
@@ -32,9 +38,15 @@ namespace Transform{
       /**return the space coordinate in const*/
       const Vector4&space() const{return x_;}
       /**return mass of particle*/
-      double mass() const{return m_;}
-      /**return particle type*/
-      int type() const{return type_;}
+      double GetMass() const{return m_;}
+      /**return urqmd particle type*/
+      int GetType() const{return type_;}
+      int GetIso3() const{return iso3_;}
+      int GetCharge() const{return charge_;}
+      int GetParent() const{return parent_;}
+      int GetN_coll() const{return N_coll_;}
+      int GetParent_type() const{return parent_type_;}
+      int GetPdg() const {int a=type_,b=iso3_;return pdgid_(&a,&b);}
   };
 
   /**judge if freestreaming, whether the particle(tau<tau_0) will cross the surface, if cross, change the particle information, 

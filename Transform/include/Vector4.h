@@ -17,7 +17,8 @@ namespace Transform{
     double M_[4];
   public:
     /**initialize the coordinate*/
-    Vector4(double x[]);
+    Vector4(const double* x);
+    Vector4(const Vector4&the);
     /**Minkowski coordinate*/
     double*Minkow(){return x_;}
     /**Milne coordinate*/

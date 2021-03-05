@@ -50,7 +50,8 @@ namespace Transform{
   */
   double remove_eta_cut(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut,const double* eta_cut=Ex_eta_cut); 
   /**combile particle vector to oscar1997A format*/
-  void OSCAR_particle(std::vector<Particle>&secondaries,std::string filename);
+  void OSCAR_19(const std::vector<Particle>&secondaries,const std::string filename=Ex_output_path+"eta_cut19.txt");
+  void urqmd_14(const std::vector<Particle>&secondaries,const std::string filename);
   
 }
 
