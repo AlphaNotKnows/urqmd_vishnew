@@ -61,7 +61,7 @@ namespace Transform{
    * @para[in] delta_t : freestreaming time
    * @return final_particle : a particle after freestreaming
    */
-  const Particle freestreaming(Particle&particle,double delta_t);
+  const Particle freestreaming(const Particle&particle,const double delta_t);
   /**output the particle information*/
   std::ostream&operator<<(std::ostream&output,const Particle&this_particle);
   /**remove the header of the file*/

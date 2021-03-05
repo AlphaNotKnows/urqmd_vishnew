@@ -25,7 +25,7 @@ namespace Transform{
     return dt1;
   }
 
-  const Particle freestreaming(Particle&particle,double delta_t){
+  const Particle freestreaming(const Particle&particle,const double delta_t){
     double gamma=particle.momentum().Minkow()[0];
     double velocity[4]={1,0,0,0};
     //calculate the velocity

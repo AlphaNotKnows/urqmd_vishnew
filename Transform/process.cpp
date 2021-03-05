@@ -286,11 +286,44 @@ namespace Transform{
     using std::fixed;
     using std::setprecision;
     std::ofstream output(filename.c_str());
+    output.setf(ios::right);
+    output.fill(' ');
+    output.setf(ios::showpoint);
+    output.flags(ios::fixed);
+    output.flags(ios::scientific);
     if(!output){
       std::cerr<<"can't open "<<filename<<std::endl;
       exit(-1);
     }
     std::ifstream header(Ex_output_path+"urqmd_result14");
+    while(true){
+      std::string line;
+      getline(header,line);
+      output<<line<<std::endl;
+      if(line.find("pvec")){
+        break;
+      }
+    }
+    header.close();
+    output<<setw(12)<<secondaries.size()<<0<<std::endl;
+    for(int i=0;i<8;i++){
+      output<<setw(8)<<0;
+    }
+    output<<std::endl;
+    for(int i=0;i<secondaries.size();i++){
+      Particle the(freestreaming(secondaries[i],-secondaries[i].space().Minkow()[0]));
+      for(int j=0;j<4;j++){
+        output<<" "<<setw(16)<<setprecision(8)<<the.space().Minkow()[j];
+      }
+      for(int j=0;j<4;j++){
+        output<<" "<<setw(16)<<setprecision(8)<<the.momentum().Minkow()[j];
+      }
+      output<<" "<<setw(16)<<setprecision(8)<<the.GetMass();
+      output<<setw(11)<<the.GetType();
+      output<<setw(3)<<the.GetIso3()<<setw(3)<<the.GetCharge();
+      output<<setw(9)<<the.GetParent()<<setw(5)<<the.GetN_coll()<<setw(4)<<the.GetParent_type()<<std::endl;
+    }
+    output.close();
   }
 
 

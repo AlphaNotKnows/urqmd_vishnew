@@ -34,6 +34,8 @@ int main(int argc,char *argv[]){
   remove_eta_cut(secondaries,secondaries_cut);
   //combine to oscar1997A format
   OSCAR_19(secondaries_cut);
+  //combine to urqmd ftn14 format and freestreaming to t=0
+  urqmd_14(secondaries_cut);
   
   //use all the particle on tau_0 within eta_cut to generate energy_momentum
   for(unsigned i=0;i<secondaries.size();i++){

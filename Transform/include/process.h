@@ -49,9 +49,14 @@ namespace Transform{
    * @return the energy within eta_cut
   */
   double remove_eta_cut(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut,const double* eta_cut=Ex_eta_cut); 
-  /**combile particle vector to oscar1997A format*/
+  /**combine particle vector to oscar1997A format
+   * @note the output particle are all on tau_0 surface
+  */
   void OSCAR_19(const std::vector<Particle>&secondaries,const std::string filename=Ex_output_path+"eta_cut19.txt");
-  void urqmd_14(const std::vector<Particle>&secondaries,const std::string filename);
+  /**combine particle vector to urqmd ftn14 format
+   * @note the output particle are freestreaming to t=0
+  */
+  void urqmd_14(const std::vector<Particle>&secondaries,const std::string filename=Ex_output_path+"eta_cut14.txt");
   
 }
 
