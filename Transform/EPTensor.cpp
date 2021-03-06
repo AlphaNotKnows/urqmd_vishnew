@@ -99,6 +99,9 @@ namespace Transform{
         for(int j=0;j<y_bin_;j++){
           if(EP_[0][0][i][j][k]>=Edec){
             goto_new_eta=true;
+            if(Ex_DEBUG){
+              std::cout<<"    (i,j,k)="<<i<<','<<j<<','<<k<<"  "<<"eta="<<eta<<"  "<<"ed="<<EP_[0][0][i][j][k]<<std::endl;
+            }
             if(edge==0){
               eta_cut[0]=eta;eta_cut[1]=eta;
               edge=1;
