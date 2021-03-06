@@ -326,6 +326,14 @@ namespace Transform{
     output.close();
   }
 
+  double momentum_sum(const std::vector<Particle>&secondaries,int mu){
+    double energy=0;
+    for(int i=0;i<secondaries.size();i++){
+      energy+=secondaries[i].momentum().Minkow()[mu];
+    }
+    return energy;
+  }
+
 
 
 }

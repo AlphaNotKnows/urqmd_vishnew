@@ -18,7 +18,9 @@ namespace Transform{
   double Ex_M_down[4]={0.,-10.,-10.,-10. };
   double Ex_M_up[4]={4.,10.,10.,10. };
   double Ex_Dx[4]={0.1,0.2,0.2,0.2 };
-  double Ex_eta_cut[2]={-5,5};
+  int Ex_eta_cut_mode=1;
+  double Ex_eta_cut[2]={-0,0};
+  double Ex_Edec=0.18;
   double Ex_range=3;
   double Ex_K=1.6;
   bool Ex_Vishnew=0;
@@ -54,7 +56,9 @@ namespace Transform{
       else if(parameter_name=="y")input_line>>Ex_M_down[2]>>Ex_M_up[2]>>Ex_M_bin[2];
       else if(parameter_name=="eta")input_line>>Ex_M_down[3]>>Ex_M_up[3]>>Ex_M_bin[3];
       else if(parameter_name=="t")input_line>>Ex_M_down[0]>>Ex_M_up[0]>>Ex_M_bin[0];
+      else if(parameter_name=="eta_cut_mode")input_line>>Ex_eta_cut_mode;
       else if(parameter_name=="eta_cut")input_line>>Ex_eta_cut[0]>>Ex_eta_cut[1];
+      else if(parameter_name=="Edec")input_line>>Ex_Edec;
       else if(parameter_name=="range")input_line>>Ex_range;
       else if(parameter_name=="input")input_line>>Ex_input_file;
       else if(parameter_name=="output")input_line>>Ex_output_path;
@@ -63,7 +67,9 @@ namespace Transform{
       else if(parameter_name=="MUSIC")input_line>>Ex_MUSIC;
       else if(parameter_name=="DEBUG")input_line>>Ex_DEBUG;
       else{
-        std::cout<<parameter_name<<" is invalid parameter"<<std::endl;
+        if(Ex_DEBUG){
+          std::cout<<parameter_name<<" is invalid parameter"<<std::endl;
+        }
       }
     }
     // bin=2*(bin)+1

@@ -5,11 +5,13 @@ t 0 4 20 // t_range: t_down t_up t_bin ,with bin is (2*val)+1
 x -13 13 65 // x_range: x_down x_up x_bin ,with bin is (2*val)+1
 y -13 13 65 // y_range: y_down y_up y_bin ,with bin is (2*val)+1
 eta -4 4 20 // eta_range: eta_down eta_up eta_bin ,with bin is (2*val)+1
-eta_cut -0 0 // output particle over eta_cut to eta_cut19.txt and eta_cut14.txt
+eta_cut_mode 0 // 0: calculate eta_cut from Edec, 1: use input eta_cut
+eta_cut -0 0 // for eta_cut_mode=1,output particle over eta_cut to eta_cut19.txt and eta_cut14.txt
+Edec 0.18 // decoupling energy density GeV/fm^3, for eta_cut_mode=0
 range 3 //range of particle impact
 input urqmd_result14 //input file name
 output Initial //output file dir
 K 1.5 // normalization factor of EPTensor
-VISHNEW 1 // output vishnew Initial: ed.txt u1.txt u2.txt
+VISHNEW 1 // output vishnew Initial: ed.txt u1.txt u2.txt,ed in GeV/fm^3
 MUSIC 0 // output MUSIC Initial:haven't been finished
 DEBUG 1 // if 1, output some information for debug, else clean

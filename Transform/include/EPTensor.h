@@ -38,6 +38,10 @@ namespace Transform{
     void AddParticle(const Particle&particle);
     /**calculate four flow*/
     void CalFlow();
+    /**search eta cut by searching the eta which all ed<Edec
+     * @return if all ed < Edec, return false and eta[0]=0,eta[1]=-1
+    */
+    bool search_eta_cut(double eta_cut[],const double Edec=Ex_Edec) const;
   };
   /**write EPTensor to t00.dat,t01.dat,t02.dat,t03.dat*/
   void write(const EPTensor&tensor,const std::string&output_path=Ex_output_path);

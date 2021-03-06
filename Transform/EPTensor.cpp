@@ -1,6 +1,6 @@
 #include<stdlib.h>
 #include<cmath>
-#include"EPTensor.h"
+#include"include/EPTensor.h"
 namespace Transform{
 
   EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(4,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0)))){}
@@ -9,9 +9,9 @@ namespace Transform{
 
   void EPTensor::AddParticle(const Particle&particle){
     //determine the step
-    double dx=Ex_Dx[1];
-    double dy=Ex_Dx[2];
-    double deta=Ex_Dx[3];
+    double dx=(x_up_-x_down_)/(x_bin_-1);
+    double dy=(y_up_-y_down_)/(y_bin_-1);
+    double deta=(eta_up_-eta_down_)/(eta_bin_-1);
     //read the Minkow coordinate of particle
     double x0=particle.space().Minkow()[1];
     double y0=particle.space().Minkow()[2];
@@ -82,6 +82,48 @@ namespace Transform{
         }
       }
     }
+  }
+
+  bool EPTensor::search_eta_cut(double eta_cut[],const double Edec) const{
+    //eta_cut edge, LB[0],RB[1]
+    int edge=0;
+    eta_cut[0]=0,eta_cut[1]=-1;
+    //determine the step
+    double dx=(x_up_-x_down_)/(x_bin_-1);
+    double dy=(y_up_-y_down_)/(y_bin_-1);
+    double deta=(eta_up_-eta_down_)/(eta_bin_-1);
+    for(int k=0;k<eta_bin_;k++){
+      double eta=eta_down_+deta*k;
+      for(int i=0;i<x_bin_;i++){
+        bool goto_new_eta=false;
+        for(int j=0;j<y_bin_;j++){
+          if(EP_[0][0][i][j][k]>=Edec){
+            goto_new_eta=true;
+            if(edge==0){
+              eta_cut[0]=eta;eta_cut[1]=eta;
+              edge=1;
+            }
+            else{
+              eta_cut[1]=eta;
+            }
+            break;
+          }
+        }
+        if(goto_new_eta)break;
+      }
+    }
+    if(Ex_DEBUG){
+      if(eta_cut[0]>eta_cut[1]){
+        std::cout<<"all ed < Edec\n";
+      }
+      else{
+        std::cout<<"judge eta_cut at LB,RB="<<eta_cut[0]<<" "<<eta_cut[1]<<std::endl;
+      }
+    }
+    if(eta_cut[0]>eta_cut[1]){
+      return false;
+    }
+    else return true;
   }
 
   void write2(const EPTensor&tensor,const std::string&output_path){

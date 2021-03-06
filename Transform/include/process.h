@@ -57,6 +57,11 @@ namespace Transform{
    * @note the output particle are freestreaming to t=0
   */
   void urqmd_14(const std::vector<Particle>&secondaries,const std::string filename=Ex_output_path+"eta_cut14.txt");
+  /**get the sum of momentum in the vector
+   * @para[in] secondaries: the sum vector
+   * @para[in] mu: the momentum component, 0~3
+  */
+  double momentum_sum(const std::vector<Particle>&secondaries,int mu);
   
 }
 
