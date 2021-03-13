@@ -1,10 +1,10 @@
-pro 197 79
-tar 197 79
+pro 1 1
+tar 14 7
 
 nev 1
-IMP 0. 20.
+IMP 0. 10.
 
-ecm 200.
+ene 1e8
 tim 4 0.1
 
 
@@ -26,5 +26,6 @@ cto 18 1
 #ctp 66 1.d10
 
 xxx
+ 
  
  

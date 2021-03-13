@@ -97,7 +97,7 @@ namespace Transform{
         Particle this_particle(p,x,mass,itype,iso3,charge,parent,N_coll,parent_type);
         double delta_t=-1;
         if(std::abs(this_particle.space().Minkow()[0]-Ex_M_up[0])<0.01*Ex_Dx[0]){
-          delta_t=cross_surface(this_particle,10000*Ex_M_up[0]);
+          delta_t=cross_surface(this_particle,-1);
         }
         else{
           delta_t=cross_surface(this_particle);
@@ -295,17 +295,17 @@ namespace Transform{
       std::cerr<<"can't open "<<filename<<std::endl;
       exit(-1);
     }
-    std::ifstream header(Ex_output_path+"urqmd_result14");
+    std::ifstream header("urqmd_result14");
     while(true){
       std::string line;
       getline(header,line);
       output<<line<<std::endl;
-      if(line.find("pvec")){
+      if(line.find("pvec")!=line.npos){
         break;
       }
     }
     header.close();
-    output<<setw(12)<<secondaries.size()<<0<<std::endl;
+    output<<setw(12)<<secondaries.size()<<" 0"<<std::endl;
     for(int i=0;i<8;i++){
       output<<setw(8)<<0;
     }

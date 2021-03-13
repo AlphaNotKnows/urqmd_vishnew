@@ -6,16 +6,18 @@ namespace Transform{
     double gamma=particle.momentum().Minkow()[0];
     double velocity[4]={1,0,0,0};
     //calculate the velocity
-    for(unsigned i=1;i<4;i++){
-      velocity[i]=particle.momentum().Minkow()[i]/gamma;
+    if(dt>0){
+      for(unsigned i=1;i<4;i++){
+        velocity[i]=particle.momentum().Minkow()[i]/gamma;
+      }
+      double x[4]={0};
+      //calculate the final coordinate
+      for(unsigned i=0;i<4;i++){
+        x[i]=particle.space().Minkow()[i]+velocity[i]*dt;
+      }
+      //if can't cross
+      if( (x[0]*x[0]-x[3]*x[3])<=tau_0*tau_0 )return -1;
     }
-    double x[4]={0};
-    //calculate the final coordinate
-    for(unsigned i=0;i<4;i++){
-      x[i]=particle.space().Minkow()[i]+velocity[i]*dt;
-    }
-    //if can't cross
-    if( (x[0]*x[0]-x[3]*x[3])<=tau_0*tau_0 )return -1;
     //if can cross,calculate the cross coordinate
     //solve the 2d equation
     double a=1-velocity[3]*velocity[3];

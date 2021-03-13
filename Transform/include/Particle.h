@@ -60,6 +60,7 @@ namespace Transform{
    * @para[in] particle : the freestreaming particle
    * @para[in] delta_t : freestreaming time
    * @return final_particle : a particle after freestreaming
+   * @note : if dt<=0, means the particle can freezeout infinity time
    */
   const Particle freestreaming(const Particle&particle,const double delta_t);
   /**output the particle information*/
