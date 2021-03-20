@@ -295,7 +295,7 @@ namespace Transform{
       std::cerr<<"can't open "<<filename<<std::endl;
       exit(-1);
     }
-    std::ifstream header("urqmd_result14");
+    std::ifstream header(Ex_input_file);
     while(true){
       std::string line;
       getline(header,line);
