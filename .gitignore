@@ -1374,3 +1374,11 @@ PlayGround/VISHNew/Initial/eta_cut14.txt
 PlayGround/VISHNew/Initial/eta_cut19.txt
 PlayGround/VISHNew/transform
 PlayGround/test.sh
+PlayGround/urqmd/frez_start
+PlayGround/utillities/dEdeta/iSS.png
+PlayGround/utillities/dEdeta/dEdeta_iSS/dEdeta0~5%.txt
+PlayGround/utillities/dEdeta/dEdeta_iSS/dEdeta5~10%.txt
+PlayGround/utillities/dNdy/dNdeta0_0.3_0.25.txt
+PlayGround/osc2u/urqmd_result19
+.gitignore
+PlayGround/osc2u/eta_cut19.txt

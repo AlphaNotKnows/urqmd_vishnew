@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 #include<iomanip>
+#include<stdio.h>
 namespace Transform{
 ///basic constants,all extern variables begin with Ex_
 /// name of parameter file

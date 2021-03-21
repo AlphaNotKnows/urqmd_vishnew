@@ -268,13 +268,16 @@ namespace Transform{
     output.setf(ios::showpoint);
     output.flags(ios::fixed);
     output.flags(ios::scientific);
-    output<<setw(10)<<1<<"  "<<setw(10)<<"  "<<secondaries.size()<<"  "<<setw(8)<<setprecision(3)<<0<<"  "<<0;
+    output<< setw(10) << 1 << "  " << setw(10) << secondaries.size() << "  " << setw(8) << 0.0 << "  " << setw(8) << 0.0 << std::endl;
 
     //loop over particles
     for(int i=0;i<secondaries.size();i++){
+      char line[500];
+      sprintf(line,  "%24.16e  %24.16e  %24.16e  %24.16e  %24.16e  %24.16e  %24.16e  %24.16e  %24.16e",secondaries[i].momentum().Minkow()[1], secondaries[i].momentum().Minkow()[2], secondaries[i].momentum().Minkow()[3], secondaries[i].momentum().Minkow()[0], secondaries[i].GetMass(), secondaries[i].space().Minkow()[1],secondaries[i].space().Minkow()[2], secondaries[i].space().Minkow()[3], secondaries[i].space().Minkow()[0]);
       output<<setw(10)<<i+1<<"  ";
       output<<setw(10)<<secondaries[i].GetPdg()<<"  ";
-      output<<setw(12)<<setprecision(6)<<secondaries[i].momentum().Minkow()[1]<<"  "<<secondaries[i].momentum().Minkow()[2]<<"  "<<secondaries[i].momentum().Minkow()[3]<<"  "<<secondaries[i].momentum().Minkow()[0]<<"  "<<secondaries[i].GetMass()<<"  "<<secondaries[i].space().Minkow()[1]<<"  "<<secondaries[i].space().Minkow()[2]<<"  "<<secondaries[i].space().Minkow()[3]<<"  "<<secondaries[i].space().Minkow()[0]<<"  \n";
+      output<<line<<std::endl;
+      // output<<setw(12)<<setprecision(6)<<secondaries[i].momentum().Minkow()[1]<<"  "<<secondaries[i].momentum().Minkow()[2]<<"  "<<secondaries[i].momentum().Minkow()[3]<<"  "<<secondaries[i].momentum().Minkow()[0]<<"  "<<secondaries[i].GetMass()<<"  "<<secondaries[i].space().Minkow()[1]<<"  "<<secondaries[i].space().Minkow()[2]<<"  "<<secondaries[i].space().Minkow()[3]<<"  "<<secondaries[i].space().Minkow()[0]<<"  \n";
     }
     output.close();
 
