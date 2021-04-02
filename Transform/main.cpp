@@ -30,31 +30,64 @@ int main(int argc,char *argv[]){
   for(unsigned i=0;i<secondaries.size();i++){
     energy_momentum.AddParticle(secondaries[i]);
   }
-  //remove over eta_cut
-  if(Ex_eta_cut_mode==1){
+  energy_momentum.CalFlow();
+  //do QGP judge
+  if(Ex_QGP_search_mode==1){
+    if(Ex_DEBUG){
+      std::cout<<"QGP judge with input eta cut\n";
+    }
     remove_eta_cut(secondaries,secondaries_cut,Ex_eta_cut);
   }
-  else if(Ex_eta_cut_mode==0){
+  else if(Ex_QGP_search_mode==0){
+    if(Ex_DEBUG){
+      std::cout<<"QGP judge with searched eta cut\n";
+    }
     double eta_cut[2]={0,0};
     if(!energy_momentum.search_eta_cut(eta_cut)){
       if(Ex_DEBUG){
         std::cout<<"no QGP generated\n";
         std::cout<<"E and p_z within eta_cut :";
       }
-      std::cout<<0<<" "<<0<<std::endl;
+      std::cout<<eta_cut[0]<<" "<<eta_cut[1]<<" "<<0<<" "<<0<<std::endl;
       return 0;
     }
     remove_eta_cut(secondaries,secondaries_cut,eta_cut);
+  }
+  else if(Ex_QGP_search_mode==2){
+    if(Ex_DEBUG){
+      std::cout<<"QGP judge with max volume judge\n";
+    }
+    int id_x=-1,id_y=-1;
+    double volume=energy_momentum.QGP_max_volume_eta0(id_x,id_y);
+    if(volume<Ex_QGP_volume){
+      //no QGP
+      if(Ex_DEBUG){
+        std::cout<<"no QGP generated\n";
+        std::cout<<"max QGP volume: ";
+        std::cout<<"max QGP volume "<<volume<<" begin at ("<<id_x<<","<<id_y<<")"<<std::endl;
+        std::cout<<"sum of QGP volume :"<<energy_momentum.QGP_volume_sum()<<std::endl;
+      }
+      else std::cout<<volume<<" "<<0<<' '<<0<<std::endl;
+      return 0;
+    }
+    else{
+      remove_QGP_volume(secondaries,secondaries_cut,energy_momentum);
+      if(Ex_DEBUG){
+        std::cout<<"max QGP volume "<<volume<<" begin at ("<<id_x<<","<<id_y<<")"<<std::endl;
+        std::cout<<"sum of QGP volume :"<<energy_momentum.QGP_volume_sum()<<std::endl;
+      }
+      else std::cout<<volume<<" ";
+    }
   }
   //combine to oscar1997A format
   OSCAR_19(secondaries_cut);
   //combine to urqmd ftn14 format and freestreaming to t=0
   urqmd_14(secondaries_cut);
-  
-  energy_momentum.CalFlow();
   WriteFlow2(energy_momentum);
   if(Ex_DEBUG){
-    std::cout<<"E and p_z within eta_cut :";
+    std::cout<<"secondaries in QGP "<<secondaries.size()<<std::endl;
+    std::cout<<"secondaries out of QGP "<<secondaries_cut.size()<<std::endl;
+    std::cout<<"E and p_z in QGP :";
   }
-  std::cout<<momentum_sum(secondaries,0)<<" "<<momentum_sum(secondaries,3)<<std::endl;
+  std::cout<<momentum_sum(secondaries,0)<<" "<<momentum_sum(secondaries,3);
 }

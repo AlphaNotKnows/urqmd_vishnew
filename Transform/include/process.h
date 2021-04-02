@@ -43,12 +43,20 @@ namespace Transform{
   /**search the energy at t0*/
   double search_energy(const std::string &input_file=Ex_input_file);
   /**remove all particles over eta_cut
+   * @note use for eta_cut_mode==0
    * @para[in] secondaries: the vector to store all secondaries and will be remove all secondaries over eta_cut
    * @para[in] secondaries_cut: the vector to store all secondaries out of eta_cut
    * @para[in] eta_cut: LB[0]<RB[1]
    * @return the energy within eta_cut
   */
-  double remove_eta_cut(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut,const double* eta_cut=Ex_eta_cut); 
+  double remove_eta_cut(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut,const double* eta_cut=Ex_eta_cut);
+  /** remove all particles in the QGP fireball
+   * @para[in] secondaries: the vector to store all secondaries and will be remove all secondaries over eta_cut
+   * @para[in] secondaries_cut: the vector to store all secondaries out of eta_cut
+   * @para[in] energy_momentum: the EPTensor that use to judge QGP fireball
+   * @return the energy within QGP fireball
+  */
+  double remove_QGP_volume(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut,const EPTensor&energy_momentum);
   /**combine particle vector to oscar1997A format
    * @note the output particle are all on tau_0 surface
   */

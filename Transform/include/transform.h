@@ -25,8 +25,10 @@ extern double Ex_M_down[4];
 extern double Ex_M_up[4];
 /// bin in Minkow or Milne coordinate
 extern unsigned Ex_M_bin[4];
-///eta_cut mode 0: calculate eta_cut from Edec, 1: use input eta_cut
-extern int Ex_eta_cut_mode;
+///eta_cut mode 0: calculate eta_cut from Edec, 1: use input eta_cut 2: use fireball volume on eta=0
+extern int Ex_QGP_search_mode;
+///minimum volume for QGP generated
+extern double Ex_QGP_volume;
 /// for eta_cut_mode=1,output particle over eta_cut to eta_cut19.txt and eta_cut14.txt, LB[1],RB[2]
 extern double Ex_eta_cut[2];
 /// decoupling energy density GeV/fm^3, for eta_cut_mode=0

@@ -249,6 +249,38 @@ namespace Transform{
     return energy;
   }
 
+  double remove_QGP_volume(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut,const EPTensor&energy_momentum){
+    //QGP energy
+    double energy=0;
+    double secondaries_num_sum=secondaries.size();
+    auto ii=secondaries.begin();
+    while(ii!=secondaries.begin()){
+      int id[4]={0,0,0,0};
+      for(int i=1;i<4;i++){
+        id[i]=search_bin(ii->space().Milne()[i],Ex_M_down[i],Ex_M_up[i],Ex_M_bin[i]);
+      }
+      //if not belong to central fireball
+      if(energy_momentum.Get_QGP_flag(id[1],id[2],id[3])<=0){
+        secondaries_cut.push_back(*ii);
+        secondaries.erase(ii);
+      }
+      else{
+        ii++;
+        energy+=ii->momentum().Minkow()[0];
+      }
+    }
+    if(secondaries_num_sum!=(secondaries.size()+secondaries_cut.size())){
+      std::cerr<<"eta cut is wrong"<<std::endl;
+      exit(-1);
+    }
+    if(Ex_DEBUG){
+      std::cout<<"secondaries within central QGP volume "<<secondaries.size()<<std::endl;
+      std::cout<<"secondaries over central QGP volume "<<secondaries_cut.size()<<std::endl;
+      std::cout<<"energy within central QGP volume "<<energy<<std::endl;
+    }
+    return energy;
+  }
+
   void OSCAR_19(const std::vector<Particle>&secondaries,const std::string filename){
     using std::ios;
     using std::setw;
