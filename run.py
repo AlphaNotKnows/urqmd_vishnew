@@ -39,6 +39,8 @@ urqmd_frez_result=urqmd_path+"/frez_result"
 result_path=root_path+"/result"
 result_file=result_path+"/event"
 
+central=[0,5,10,15,20,25,30,35,40,45,50]
+
 def run_urqmd_initial(event_num):
   # run urqmd initial
   print("begin {} urqmd initial".format(event_num))
@@ -64,7 +66,6 @@ def run_urqmd_initial(event_num):
   data=np.loadtxt(urqmd_initial_path+"/all_initial.txt")
   data=data[(-data[:,1]).argsort(),:]
   #sort as central
-  central=[0,3,6,10,15,20,25,30,35,40,45,50]
   central_path=urqmd_initial_path+"/central"
   if(os.path.exists(central_path)):
     shutil.rmtree(central_path)
@@ -102,20 +103,19 @@ def run_transform():
   os.chdir(transform_path)
   if(not os.path.exists(transform_result_dir)):
     os.mkdir(transform_result_dir)
-  output_str=os.popen(transform_exec+' '+transform_para).read()
-  print(output_str)
+  [volume,E_core,p_core]=list(map(float,os.popen(transform_exec+' '+transform_para).read().split(' ')))
   if(os.path.exists(vishnew_input_dir)):
     shutil.rmtree(vishnew_input_dir)
   shutil.move(transform_result_dir,vishnew_input_dir)
   print("end transform")
+  return [volume,E_core,p_core]
 
 def run_vishnew():
   print("begin vishnew")
   os.chdir(vishnew_path)
   if(not os.path.exists(vishnew_result_dir)):
     os.mkdir(vishnew_result_dir)
-  output_str=os.popen(vishnew_exec).read()
-  print(output_str)
+  os.popen(vishnew_exec).read()
   if(os.path.exists(iss_input_dir)):
     shutil.rmtree(iss_input_dir)
   shutil.move(vishnew_result_dir,iss_input_dir)
@@ -124,8 +124,7 @@ def run_vishnew():
 def run_iSS():
   print("begin iSS")
   os.chdir(iss_path)
-  output_str=os.popen(iss_exec).read()
-  print(output_str)
+  os.popen(iss_exec).read()
   if(os.path.exists(osc2u_input)):
     os.remove(osc2u_input)
   shutil.move(iss_result,osc2u_input)
@@ -135,8 +134,7 @@ def run_iSS():
 def run_osc2u():
   print("begin osc2u")
   os.chdir(osc2u_path)
-  output_str=os.popen(osc2u_exec+"<"+osc2u_input).read()
-  print(output_str)
+  os.popen(osc2u_exec+"<"+osc2u_input).read()
   os.rename(osc2u_result,osc2u_result_move)
   if(os.path.exists(urqmd_frez_input)):
     os.remove(urqmd_frez_input)
@@ -146,8 +144,7 @@ def run_osc2u():
 def run_urqmd_frez():
   print("begin urqmd frezout")
   os.chdir(urqmd_path)
-  output_str=os.popen(urqmd_frez_exec).read()
-  print(output_str)
+  os.popen(urqmd_frez_exec).read()
   print("end urqmd frezout")
 
 
@@ -166,7 +163,8 @@ for central_dir in os.listdir(initial_path):
     print("initial with :"+initial_file)
     shutil.copy(initial_path+'/'+central_dir+'/'+initial_file,transform_input)
     # run_urqmd_initial()
-    run_transform()
+    [volume,E_core,p_core]=run_transform()
+    print(" [volume={},E_core={},p_core={}]".format(volume,E_core,p_core))
     run_vishnew()
     run_iSS()
     run_osc2u()
