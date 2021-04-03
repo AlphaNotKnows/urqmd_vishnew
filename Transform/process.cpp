@@ -254,7 +254,7 @@ namespace Transform{
     double energy=0;
     double secondaries_num_sum=secondaries.size();
     auto ii=secondaries.begin();
-    while(ii!=secondaries.begin()){
+    while(ii!=secondaries.end()){
       int id[4]={0,0,0,0};
       for(int i=1;i<4;i++){
         id[i]=search_bin(ii->space().Milne()[i],Ex_M_down[i],Ex_M_up[i],Ex_M_bin[i]);
