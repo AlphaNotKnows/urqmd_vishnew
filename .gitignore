@@ -1382,3 +1382,15 @@ PlayGround/utillities/dNdy/dNdeta0_0.3_0.25.txt
 PlayGround/osc2u/urqmd_result19
 .gitignore
 PlayGround/osc2u/eta_cut19.txt
+PlayGround/test.py
+PlayGround/trans_1e7_0.18_0.4.txt
+PlayGround/urqmd/input_initial_4
+PlayGround/urqmd/input_initial_8000
+PlayGround/transform/urqmd_initial_14.txt
+PlayGround/trans_1e7_0.18_0.4_1.0_1.0.txt
+PlayGround/trans_1e7_0.18_0.4_1.0_1.5.txt
+PlayGround/plot_QGP.py
+PlayGround/trans_1e7_0.18_1.0_1.0_1.5.txt
+PlayGround/trans_1e7_1.00_0.4_1.0_1.5.txt
+PlayGround/trans_10e7_0.18_0.4_1.0_1.5.txt
+PlayGround/trans_1e7_0.18_0.4_0.5_1.5.txt
