@@ -29,7 +29,7 @@ extern unsigned Ex_M_bin[4];
 extern int Ex_QGP_search_mode;
 ///minimum volume for QGP generated
 extern double Ex_QGP_volume;
-/// for eta_cut_mode=1,output particle over eta_cut to eta_cut19.txt and eta_cut14.txt, LB[1],RB[2]
+/// for eta_cut_mode=1,output particle over eta_cut to QGP_cut19.txt and QGP_cut14.txt, LB[1],RB[2]
 extern double Ex_eta_cut[2];
 /// decoupling energy density GeV/fm^3, for eta_cut_mode=0
 extern double Ex_Edec;

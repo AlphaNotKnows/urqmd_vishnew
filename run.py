@@ -58,11 +58,8 @@ def run_urqmd_initial(event_num):
     shutil.move(urqmd_result14,urqmd_initial_path+"/event14_{}".format(i))
     shutil.move(urqmd_result19,urqmd_initial_path+"/event19_{}".format(i))
   # get urqmd energy
-  print("begin QGP energy")
   output_str=os.popen(urqmd_path+"/QGP_energy "+str(event_num)).read()
   os.chdir(urqmd_initial_path)
-  print("end QGP energy")
-  print("begin centrality sort")
   data=np.loadtxt(urqmd_initial_path+"/all_initial.txt")
   data=data[(-data[:,1]).argsort(),:]
   #sort as central
@@ -79,7 +76,7 @@ def run_urqmd_initial(event_num):
     os.mkdir(dir_path)
     for j in range(down_id,up_id):
       os.chdir(sys.path[0])
-      shutil.copy(urqmd_initial_path+"/event14_{}".format(int(data[j,0])),dir_path)
+      shutil.move(urqmd_initial_path+"/event14_{}".format(int(data[j,0])),dir_path)
       os.chdir(dir_path)
       os.rename(dir_path+"/event14_{}".format(int(data[j,0])),"event{}".format(int(j-down_id)))
   if(os.path.exists(initial_path)):
@@ -164,7 +161,10 @@ for central_dir in os.listdir(initial_path):
     shutil.copy(initial_path+'/'+central_dir+'/'+initial_file,transform_input)
     # run_urqmd_initial()
     [volume,E_core,p_core]=run_transform()
-    print(" [volume={},E_core={},p_core={}]".format(volume,E_core,p_core))
+    if(E_core==0):
+      print(" [volume={},E_core={},p_core={}]".format(volume,E_core,p_core))
+      print("no QGP")
+      continue
     run_vishnew()
     run_iSS()
     run_osc2u()

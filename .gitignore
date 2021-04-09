@@ -1394,3 +1394,6 @@ PlayGround/trans_1e7_0.18_1.0_1.0_1.5.txt
 PlayGround/trans_1e7_1.00_0.4_1.0_1.5.txt
 PlayGround/trans_10e7_0.18_0.4_1.0_1.5.txt
 PlayGround/trans_1e7_0.18_0.4_0.5_1.5.txt
+PlayGround/urqmd/read.py
+PlayGround/transform/Initial/QGP_cut14.txt
+PlayGround/transform/Initial/QGP_cut19.txt
