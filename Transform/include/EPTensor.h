@@ -40,6 +40,8 @@ namespace Transform{
     const std::vector<Array3>&GetFlow()const{return flow_;}
     /**add particle to Energy Tensor*/ 
     void AddParticle(const Particle&particle);
+    /**get momentum sum*/
+    double momentum(const int mu)const;
     /**calculate four flow*/
     void CalFlow();
     /**search eta cut by searching the eta which all ed<Edec

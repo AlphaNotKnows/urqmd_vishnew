@@ -6,10 +6,10 @@ namespace Transform{
     double gamma=particle.momentum().Minkow()[0];
     double velocity[4]={1,0,0,0};
     //calculate the velocity
+    for(unsigned i=1;i<4;i++){
+      velocity[i]=particle.momentum().Minkow()[i]/gamma;
+    }
     if(dt>0){
-      for(unsigned i=1;i<4;i++){
-        velocity[i]=particle.momentum().Minkow()[i]/gamma;
-      }
       double x[4]={0};
       //calculate the final coordinate
       for(unsigned i=0;i<4;i++){
@@ -23,7 +23,22 @@ namespace Transform{
     double a=1-velocity[3]*velocity[3];
     double b=2*(particle.space().Minkow()[0]-particle.space().Minkow()[3]*velocity[3]);
     double c=particle.space().Minkow()[0]*particle.space().Minkow()[0]-particle.space().Minkow()[3]*particle.space().Minkow()[3]-tau_0*tau_0;
-    double dt1=(-b+std::sqrt(b*b-4*a*c))/(2*a);
+    double dt1=0;
+    if(a==0){
+      if(Ex_DEBUG){
+        std::cout<<"warning : one particle v_z==1\n";
+      }
+      dt1=-c/b;
+    }
+    else dt1=(-b+std::sqrt(b*b-4*a*c))/(2*a);
+    for(unsigned i=1;i<4;i++){
+      velocity[i]=particle.momentum().Minkow()[i]/gamma;
+    }
+    double x[4]={0};
+    for(unsigned i=0;i<4;i++){
+      x[i]=particle.space().Minkow()[i]+velocity[i]*dt1;
+    }
+    // std::cout<<x[0]*x[0]-x[3]*x[3]<<' '<<(particle.space().Minkow()[0]+dt1)*(particle.space().Minkow()[0]+dt1)-(particle.space().Minkow()[3]+velocity[3]*dt1)*(particle.space().Minkow()[3]+velocity[3]*dt1)<<std::endl;
     return dt1;
   }
 
@@ -49,9 +64,24 @@ namespace Transform{
       output<<' '<<this_particle.momentum().Minkow()[i]/gamma;
     }
     output<<std::endl;
-    output<<"Minkow";
+    output<<"Minkow space";
     for(int i=0;i<4;i++){
       output<<' '<<this_particle.space().Minkow()[i];
+    }
+    output<<std::endl;
+    output<<"Milne space";
+    for(int i=0;i<4;i++){
+      output<<' '<<this_particle.space().Milne()[i];
+    }
+    output<<std::endl;
+    output<<"Minkow momentum";
+    for(int i=0;i<4;i++){
+      output<<' '<<this_particle.momentum().Minkow()[i];
+    }
+    output<<std::endl;
+    output<<"Milne momentum";
+    for(int i=0;i<4;i++){
+      output<<' '<<this_particle.momentum().Milne()[i];
     }
     output<<std::endl;
     return output;

@@ -70,6 +70,11 @@ namespace Transform{
    * @para[in] mu: the momentum component, 0~3
   */
   double momentum_sum(const std::vector<Particle>&secondaries,int mu);
+  /**get the sum of momentum milne in the vector which is used in EPTensor
+   * @para[in] secondaries: the sum vector
+   * @para[in] mu: the momentum component, 0~3
+  */
+  double momentum_Milne_sum(const std::vector<Particle>&secondaries,int mu);
   
 }
 

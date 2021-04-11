@@ -96,14 +96,22 @@ namespace Transform{
         //judge and push the particle on the surface,if the last time, let it all freestreaming
         Particle this_particle(p,x,mass,itype,iso3,charge,parent,N_coll,parent_type);
         double delta_t=-1;
-        if(std::abs(this_particle.space().Minkow()[0]-Ex_M_up[0])<0.01*Ex_Dx[0]){
+        if(std::abs(this_particle.space().Minkow()[0]-Ex_M_up[0])<0.0001*Ex_Dx[0]){
           delta_t=cross_surface(this_particle,-1);
         }
         else{
           delta_t=cross_surface(this_particle);
         }
         if(delta_t>=0){
-          secondaries.push_back(freestreaming(this_particle,delta_t));
+          Particle the=freestreaming(this_particle,delta_t);
+          secondaries.push_back(the);
+          // std::cout<<secondaries.size()<<':'<<secondaries[secondaries.size()-1].space().Milne()[0]<<' '<<the.space().Milne()[0]<<'\n';
+          if(Ex_DEBUG){
+            if(std::abs(the.space().Milne()[0]-Ex_Tau_0)>0.00001*Ex_Dx[0]){
+              std::cout<<"delta_t="<<delta_t<<std::endl;
+              // std::cout<<the<<std::endl;
+            }
+          }
         }
       }
     }
@@ -367,6 +375,21 @@ namespace Transform{
       energy+=secondaries[i].momentum().Minkow()[mu];
     }
     return energy;
+  }
+
+  double momentum_Milne_sum(const std::vector<Particle>&secondaries,int mu){
+    double energy=0;
+    for(int i=0;i<secondaries.size();i++){
+      auto p0=secondaries[i].momentum().Minkow();
+      double eta_0=secondaries[i].space().Milne()[3];
+      double cosh_eta=std::cosh(eta_0),sinh_eta=std::sinh(eta_0);
+      double p[4]={0};
+      p[0]=p0[0]*cosh_eta-p0[3]*sinh_eta;
+      p[3]=(p0[3]*cosh_eta-p0[0]*sinh_eta)/Ex_Tau_0;
+      p[1]=p0[1];p[2]=p0[2];
+      energy+=p[mu];
+    }
+    return energy/Ex_Tau_0;
   }
 
 

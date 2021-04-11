@@ -5,12 +5,12 @@ namespace Transform{
     double tau2=x[0]*x[0]-x[3]*x[3];
     if(tau2>=0){
       M_[0]=sqrt(tau2);
+      M_[3]=0.5*log( (x[0]+x[3])/(x[0]-x[3]) );
     }
     else{
       M_[0]=-sqrt(-tau2);
+      M_[3]=0.5*log( (x[0]+x[3])/(x[0]-x[3]) );
     }
-
-    M_[3]=0.5*log( (x[0]+x[3])/(x[0]-x[3]) );
     M_[1]=x[1];M_[2]=x[2];
   }
   Vector4::Vector4(const Vector4&the){

@@ -93,10 +93,10 @@ namespace Transform{
     cout<<"parameter file : "<<Ex_parameter_file<<endl;
     cout<<"tau_0 : "<<Ex_Tau_0<<endl;
     cout<<"R_ver : "<<Ex_R_ver<<' '<<" R_eta : "<<Ex_R_eta<<endl;;
-    cout<<"x_down : "<<Ex_M_down[1]<<" x_up : "<<Ex_M_up[1]<<" x_bin : "<<Ex_M_bin[1]<<endl;
-    cout<<"y_down : "<<Ex_M_down[2]<<" y_up : "<<Ex_M_up[2]<<" y_bin : "<<Ex_M_bin[2]<<endl;
-    cout<<"eta_down : "<<Ex_M_down[3]<<" eta_up : "<<Ex_M_up[3]<<" eta_bin : "<<Ex_M_bin[3]<<endl;
-    cout<<"tau_down : "<<Ex_M_down[0]<<" tau_up : "<<Ex_M_up[0]<<" tau_bin : "<<Ex_M_bin[0]<<endl;
+    cout<<"x_down : "<<Ex_M_down[1]<<" x_up : "<<Ex_M_up[1]<<" x_bin : "<<Ex_M_bin[1]<<" dx : "<<Ex_Dx[1]<<endl;
+    cout<<"y_down : "<<Ex_M_down[2]<<" y_up : "<<Ex_M_up[2]<<" y_bin : "<<Ex_M_bin[2]<<" dy : "<<Ex_Dx[2]<<endl;
+    cout<<"eta_down : "<<Ex_M_down[3]<<" eta_up : "<<Ex_M_up[3]<<" eta_bin : "<<Ex_M_bin[3]<<" deta : "<<Ex_Dx[3]<<endl;
+    cout<<"tau_down : "<<Ex_M_down[0]<<" tau_up : "<<Ex_M_up[0]<<" tau_bin : "<<Ex_M_bin[0]<<" dt : "<<Ex_Dx[0]<<endl;
     cout<<"range : "<<Ex_range<<endl;
   }
 

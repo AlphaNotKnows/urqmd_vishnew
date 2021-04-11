@@ -22,6 +22,12 @@ int main(int argc,char *argv[]){
   std::vector<Particle> secondaries,secondaries_cut;
   search_tau(secondaries);
   if(Ex_DEBUG){
+    // for(int i=0;i<secondaries.size();i++){
+    //   if(std::abs(secondaries[i].space().Milne()[0]-Ex_Tau_0)>0.0001*Ex_Dx[0]){
+    //     // std::cout<<secondaries[i];
+    //     std::cout<<i<<':'<<cross_surface(secondaries[i],-1)<<std::endl;
+    //   }
+    // }
     double energy0=search_energy();
     std::cout<<"energy : "<<energy0<<"  energy on tau_0 : "<<momentum_sum(secondaries,0)<<" secondaries on tau_0 : "<<secondaries.size()<<std::endl;
   }
@@ -29,6 +35,20 @@ int main(int argc,char *argv[]){
   //use all the particle on tau_0 within eta_cut to generate energy_momentum
   for(unsigned i=0;i<secondaries.size();i++){
     energy_momentum.AddParticle(secondaries[i]);
+  }
+
+  //check momentum in EPTensor
+  if(Ex_DEBUG){
+    std::cout<<"p[0,1,2,3] in EPTensor : ";
+    for(int i=0;i<4;i++){
+      std::cout<<energy_momentum.momentum(i)<<' ';
+    }
+    std::cout<<std::endl;
+    std::cout<<"p[0,1,2,3] for EPTensor : ";
+    for(int i=0;i<4;i++){
+      std::cout<<momentum_Milne_sum(secondaries,i)<<' ';
+    }
+    std::cout<<std::endl;
   }
   energy_momentum.CalFlow();
   //do QGP judge
@@ -82,7 +102,9 @@ int main(int argc,char *argv[]){
   //combine to oscar1997A format
   OSCAR_19(secondaries_cut);
   //combine to urqmd ftn14 format and freestreaming to t=0
-  urqmd_14(secondaries_cut);
+  if(Ex_DEBUG){
+    urqmd_14(secondaries_cut);
+  }
   WriteFlow2(energy_momentum);
   if(Ex_DEBUG){
     std::cout<<"secondaries in QGP "<<secondaries.size()<<std::endl;

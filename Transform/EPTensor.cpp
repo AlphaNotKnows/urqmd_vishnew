@@ -3,7 +3,7 @@
 #include"include/EPTensor.h"
 namespace Transform{
 
-  EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(4,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0)))),QGP_flag_(x_bin,std::vector<std::vector<int>>(y_bin,std::vector<int>(eta_bin,0))){}
+  EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(1,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(eta_bin,0)))),QGP_flag_(x_bin,std::vector<std::vector<int>>(y_bin,std::vector<int>(eta_bin,0))){}
 
   // EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(4,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(1,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(1,0)))){}
 
@@ -69,6 +69,14 @@ namespace Transform{
           for(unsigned mu=0;mu<1;mu++){
             for(unsigned nu=0;nu<4;nu++){
               EP_[mu][nu][i][j][k]+=local_factor*p[mu]*p[nu];
+              if(!std::isfinite(EP_[mu][nu][i][j][k])){
+                if(Ex_DEBUG){
+                  std::cerr<<"wrong EPTensor\n";
+                  std::cerr<<eta_0<<' '<<eta_0<<' '<<p[mu]<<' '<<p[nu]<<std::endl;
+                  std::cerr<<particle<<std::endl;
+                }
+                exit(-1);
+              }
             }
           }
         }
@@ -102,6 +110,18 @@ namespace Transform{
         }
       }
     }
+  }
+
+  double EPTensor::momentum(const int mu)const{
+    double p=0;
+    for(int i=0;i<x_bin_;i++){
+      for(int j=0;j<y_bin_;j++){
+        for(int k=0;k<eta_bin_;k++){
+          p+=EP_[0][mu][i][j][k];
+        }
+      }
+    }
+    return p*Ex_Dx[1]*Ex_Dx[2]*Ex_Dx[3];
   }
 
   bool EPTensor::search_eta_cut(double eta_cut[],const double Edec) const{

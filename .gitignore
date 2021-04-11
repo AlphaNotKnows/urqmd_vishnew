@@ -1397,3 +1397,6 @@ PlayGround/trans_1e7_0.18_0.4_0.5_1.5.txt
 PlayGround/urqmd/read.py
 PlayGround/transform/Initial/QGP_cut14.txt
 PlayGround/transform/Initial/QGP_cut19.txt
+PlayGround/VISHNew/Initial/QGP_cut14.txt
+PlayGround/VISHNew/Initial/QGP_cut19.txt
+PlayGround/osc2u/QGP_cut19.txt
