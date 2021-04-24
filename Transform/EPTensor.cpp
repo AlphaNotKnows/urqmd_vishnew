@@ -294,4 +294,25 @@ namespace Transform{
     }
   }
 
+  void WriteFlow3(const EPTensor&tensor,const std::string&output_path){
+    auto flow=tensor.GetFlow();
+    std::string output_file[4];
+    output_file[0]=output_path+"ed_3.txt";
+    output_file[1]=output_path+"u1_3.txt";
+    output_file[2]=output_path+"u2_3.txt";
+    output_file[3]=output_path+"ueta_3.txt";
+    for(int comp=0;comp<4;comp++){
+      std::ofstream output(output_file[comp].c_str());
+      for(int i=0;i<Ex_M_bin[1];i++){
+        for(int j=0;j<Ex_M_bin[2];j++){
+          for(int k=0;k<Ex_M_bin[3];k++){
+            output<<flow[comp][i][j][k]<<' ';
+          }
+          output<<std::endl;
+        }
+      }
+      output.close();
+    }
+  }
+
 }

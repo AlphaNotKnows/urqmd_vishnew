@@ -71,6 +71,8 @@ namespace Transform{
   void write2(const EPTensor&tensor,const std::string&output_path=Ex_output_path);
   /**write flow in 2d to ed.dat u1.dat u2.dat with only eta=0*/
   void WriteFlow2(const EPTensor&tensor,const std::string&output_path=Ex_output_path);
+  /**write flow in 3d to ed_3.txt u1_3.txt u2_3.txt ueta_3.txt with only eta=0*/
+  void WriteFlow3(const EPTensor&tensor,const std::string&output_path=Ex_output_path);
 }
 
 

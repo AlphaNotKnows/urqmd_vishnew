@@ -105,7 +105,12 @@ int main(int argc,char *argv[]){
   if(Ex_DEBUG){
     urqmd_14(secondaries_cut);
   }
-  WriteFlow2(energy_momentum);
+  if(Ex_Vishnew){
+    WriteFlow2(energy_momentum);
+  }
+  if(Ex_MUSIC){
+    WriteFlow3(energy_momentum);
+  }
   if(Ex_DEBUG){
     std::cout<<"secondaries in QGP "<<secondaries.size()<<std::endl;
     std::cout<<"secondaries out of QGP "<<secondaries_cut.size()<<std::endl;
