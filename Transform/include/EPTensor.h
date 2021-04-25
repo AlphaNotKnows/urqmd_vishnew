@@ -25,6 +25,10 @@ namespace Transform{
     std::vector<std::vector<std::vector<int>>>QGP_flag_;
     ///flow four velocity
     std::vector<Array3> flow_;
+    ///get cosh_eta in grid
+    std::vector<double> cosh_eta_grid;
+    ///get sinh_eta in grid
+    std::vector<double> sinh_eta_grid;
   public:
     /**initialize the EPTensor*/
     EPTensor(double x_down=Ex_M_down[1],double x_up=Ex_M_up[1],double y_down=Ex_M_down[2],double y_up=Ex_M_up[2],double eta_down=Ex_M_down[3],double eta_up=Ex_M_up[3],double tau_0=Ex_Tau_0,double K=Ex_K,unsigned x_bin=Ex_M_bin[1],unsigned y_bin=Ex_M_bin[2],unsigned eta_bin=Ex_M_bin[3]);
