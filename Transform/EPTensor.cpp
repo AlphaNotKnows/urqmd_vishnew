@@ -121,14 +121,29 @@ namespace Transform{
 
   double EPTensor::momentum(const int mu)const{
     double p=0;
+    double dx=(x_up_-x_down_)/(x_bin_-1);
+    double dy=(y_up_-y_down_)/(y_bin_-1);
+    double deta=(eta_up_-eta_down_)/(eta_bin_-1);
     for(int i=0;i<x_bin_;i++){
       for(int j=0;j<y_bin_;j++){
         for(int k=0;k<eta_bin_;k++){
           p+=EP_[0][mu][i][j][k];
+          switch (mu)
+          {
+          case 0:
+            p+=EP_[0][0][i][j][k]*cosh_eta_grid[k]+EP_[0][3][i][j][k]*sinh_eta_grid[k];
+            break;
+          case 3:
+            p+=EP_[0][0][i][j][k]*sinh_eta_grid[k]+EP_[0][3][i][j][k]*cosh_eta_grid[k];
+            break;
+          default:
+            p+=EP_[0][mu][i][j][k];
+            break;
+          }
         }
       }
     }
-    return p*Ex_Dx[1]*Ex_Dx[2]*Ex_Dx[3];
+    return p*dx*dy*deta*tau_0_;
   }
 
   bool EPTensor::search_eta_cut(double eta_cut[],const double Edec) const{

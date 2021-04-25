@@ -44,7 +44,7 @@ namespace Transform{
     const std::vector<Array3>&GetFlow()const{return flow_;}
     /**add particle to Energy Tensor*/ 
     void AddParticle(const Particle&particle);
-    /**get momentum sum*/
+    /**get momentum sum, which means T_tau_t,T_tau_x ...*/
     double momentum(const int mu)const;
     /**calculate four flow*/
     void CalFlow();
