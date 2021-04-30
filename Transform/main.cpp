@@ -83,7 +83,6 @@ int main(int argc,char *argv[]){
       //no QGP
       if(Ex_DEBUG){
         std::cout<<"no QGP generated\n";
-        std::cout<<"max QGP volume: ";
         std::cout<<"max QGP volume "<<volume<<" begin at ("<<id_x<<","<<id_y<<")"<<std::endl;
         std::cout<<"sum of QGP volume :"<<energy_momentum.QGP_volume_sum()<<std::endl;
       }
@@ -99,6 +98,19 @@ int main(int argc,char *argv[]){
       else std::cout<<volume<<" ";
     }
   }
+  // for(int i=0;i<secondaries.size();i++){
+  //   EPTensor EP;
+  //   EP.AddParticle(secondaries[i]);
+  //   std::cout<<i<<": "<<EP.momentum(0)/secondaries[i].momentum().Minkow()[0]<<' '<<EP.momentum(3)/secondaries[i].momentum().Minkow()[3]<<std::endl;
+  //   std::cout<<secondaries[i].space().Milne()[1]<<' '<<secondaries[i].space().Milne()[2]<<' '<<secondaries[i].space().Milne()[3]<<std::endl;
+  //   std::cout<<secondaries[i].momentum().Minkow()[0]<<' '<<secondaries[i].momentum().Minkow()[3]<<std::endl;
+  // }
+  // return 0;
+  EPTensor energy_momentum_QGP;
+  for(int i=0;i<secondaries.size();i++){
+    energy_momentum_QGP.AddParticle(secondaries[i]);
+  }
+  energy_momentum_QGP.CalFlow();
   //combine to oscar1997A format
   OSCAR_19(secondaries_cut);
   //combine to urqmd ftn14 format and freestreaming to t=0
@@ -106,15 +118,17 @@ int main(int argc,char *argv[]){
     urqmd_14(secondaries_cut);
   }
   if(Ex_Vishnew){
-    WriteFlow2(energy_momentum);
+    WriteFlow2(energy_momentum_QGP);
   }
   if(Ex_MUSIC){
-    WriteFlow3(energy_momentum);
+    WriteFlow3(energy_momentum_QGP);
   }
   if(Ex_DEBUG){
     std::cout<<"secondaries in QGP "<<secondaries.size()<<std::endl;
     std::cout<<"secondaries out of QGP "<<secondaries_cut.size()<<std::endl;
+    std::cout<<"E and p_z out of QGP: "<<momentum_sum(secondaries_cut,0)<<' '<<momentum_sum(secondaries_cut,3)<<std::endl;
+    std::cout<<"E and p_z in EPTensor_QGP :"<<energy_momentum_QGP.momentum(0)<<' '<<energy_momentum_QGP.momentum(3)<<std::endl;
     std::cout<<"E and p_z in QGP :";
   }
-  std::cout<<momentum_sum(secondaries,0)<<" "<<momentum_sum(secondaries,3);
+  std::cout<<momentum_sum(secondaries,0)<<" "<<momentum_sum(secondaries,3)<<std::endl;
 }

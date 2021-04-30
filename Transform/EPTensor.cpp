@@ -12,8 +12,6 @@ namespace Transform{
     }
   }
 
-  // EPTensor::EPTensor(double x_down,double x_up,double y_down,double y_up,double eta_down,double eta_up,double tau_0,double K,unsigned x_bin,unsigned y_bin,unsigned eta_bin):x_down_(x_down),x_up_(x_up),y_down_(y_down),y_up_(y_up),eta_down_(eta_down),eta_up_(eta_up),tau_0_(tau_0),K_(K),x_bin_(x_bin),y_bin_(y_bin),eta_bin_(eta_bin),EP_(4,std::vector<Array3>(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(1,0))))),flow_(4,Array3(x_bin,std::vector<std::vector<double>>(y_bin,std::vector<double>(1,0)))){}
-
   double EPTensor::Get_Dx(int mu)const{
     switch (mu)
     {
@@ -31,47 +29,51 @@ namespace Transform{
 
   void EPTensor::AddParticle(const Particle&particle){
     //determine the step
-    double dx=(x_up_-x_down_)/(x_bin_-1);
-    double dy=(y_up_-y_down_)/(y_bin_-1);
-    double deta=(eta_up_-eta_down_)/(eta_bin_-1);
+    static const double dx=(x_up_-x_down_)/(x_bin_-1);
+    static const double dy=(y_up_-y_down_)/(y_bin_-1);
+    static const double deta=(eta_up_-eta_down_)/(eta_bin_-1);
     //read the Minkow coordinate of particle
-    double x0=particle.space().Minkow()[1];
-    double y0=particle.space().Minkow()[2];
-    double eta0=particle.space().Minkow()[3];
+    const double x0=particle.space().Milne()[1];
+    const double y0=particle.space().Milne()[2];
+    const double eta0=particle.space().Milne()[3];
     //determine the bin range of particle
-    unsigned x_down_bin=search_bin(x0-Ex_range*Ex_R_ver,x_down_,x_up_,x_bin_);
-    unsigned x_up_bin=search_bin(x0+Ex_range*Ex_R_ver,x_down_,x_up_,x_bin_);
-    unsigned y_down_bin=search_bin(y0-Ex_range*Ex_R_ver,y_down_,y_up_,y_bin_);
-    unsigned y_up_bin=search_bin(y0+Ex_range*Ex_R_ver,y_down_,y_up_,y_bin_);
-    unsigned eta_down_bin=search_bin(eta0-Ex_range*Ex_R_eta,eta_down_,eta_up_,eta_bin_);
-    unsigned eta_up_bin=search_bin(eta0+Ex_range*Ex_R_eta,eta_down_,eta_up_,eta_bin_);
+    const unsigned x_down_bin=search_bin(x0-Ex_range*Ex_R_ver,x_down_,x_up_,x_bin_);
+    const unsigned x_up_bin=search_bin(x0+Ex_range*Ex_R_ver,x_down_,x_up_,x_bin_);
+    const unsigned y_down_bin=search_bin(y0-Ex_range*Ex_R_ver,y_down_,y_up_,y_bin_);
+    const unsigned y_up_bin=search_bin(y0+Ex_range*Ex_R_ver,y_down_,y_up_,y_bin_);
+    const unsigned eta_down_bin=search_bin(eta0-Ex_range*Ex_R_eta,eta_down_,eta_up_,eta_bin_);
+    const unsigned eta_up_bin=search_bin(eta0+Ex_range*Ex_R_eta,eta_down_,eta_up_,eta_bin_);
     //get the momentum in {tau,x,y,eta}, here the definition follow arxiv:1205.5019
-    auto p0=particle.momentum().Minkow();
-    double eta_0=particle.space().Milne()[3];
-    double cosh_eta=std::cosh(eta_0),sinh_eta=std::sinh(eta_0);
-    double p[4]={0};
-    p[0]=p0[0]*cosh_eta-p0[3]*sinh_eta;
-    p[3]=(p0[3]*cosh_eta-p0[0]*sinh_eta)/tau_0_;
-    p[1]=p0[1];p[2]=p0[2];
+    const auto p0=particle.momentum().Minkow();
+    const double cosh_eta=std::cosh(eta0),sinh_eta=std::sinh(eta0);
+    const double p[4]={p0[0]*cosh_eta-p0[3]*sinh_eta, p0[1], p0[2], (p0[3]*cosh_eta-p0[0]*sinh_eta)/tau_0_};
     // std::cout<<"p= ";
     // for(int i=0;i<4;i++){
     //   std::cout<<p[i]<<' ';
     // }
     // std::cout<<std::endl;
     //the overall factor
-    double factor=K_/(p[0]*tau_0_*std::sqrt(2*Pi)*2*Pi*Ex_R_eta*Ex_R_ver*Ex_R_ver);
+    static const double factor0=K_/(tau_0_*std::sqrt(2*Pi)*2*Pi*Ex_R_eta*Ex_R_ver*Ex_R_ver*std::exp(0.5*Ex_R_eta*Ex_R_eta));
+    std::vector<double>exp_x(x_bin_,0),exp_y(y_bin_,0),exp_eta(eta_bin_,0);
+    const double factor=factor0/p[0];
+    //store the repeated exp cal
+    for(int i=x_down_bin;i<=x_up_bin;i++){
+      double delta_x=x_down_+i*dx-x0;
+      exp_x[i]=std::exp(-delta_x*delta_x/(2*Ex_R_ver*Ex_R_ver));
+    }
+    for(int i=y_down_bin;i<=y_up_bin;i++){
+      double delta_y=y_down_+i*dy-y0;
+      exp_y[i]=std::exp(-delta_y*delta_y/(2*Ex_R_ver*Ex_R_ver));
+    }
+    for(int i=eta_down_bin;i<=eta_up_bin;i++){
+      double delta_eta=eta_down_+i*deta-eta0;
+      exp_eta[i]=std::exp(-delta_eta*delta_eta/(2*Ex_R_eta*Ex_R_eta));
+    }
     //for particle influence region
     for(unsigned i=x_down_bin;i<=x_up_bin;i++){
-      double delta_x=x_down_+i*dx-x0;
       for(unsigned j=y_down_bin;j<=y_up_bin;j++){
-        double delta_y=y_down_+j*dy-y0;
         for(unsigned k=eta_down_bin;k<=eta_up_bin;k++){
-        // for(unsigned k=0;k<1;k++){
-          //calculator the factor local in x,y,eta
-          double delta_eta=eta_down_+k*deta-eta0;
-          // double delta_eta=eta0;
-          double exponent=-( (delta_x*delta_x+delta_y*delta_y)/(2*Ex_R_ver*Ex_R_ver) + (delta_eta*delta_eta)/(2*Ex_R_eta*Ex_R_eta) );
-          double local_factor=factor*std::exp(exponent);
+          const double local_factor=factor*exp_x[i]*exp_y[j]*exp_eta[k];
           //loop over T^{0,nu} tensor
           for(unsigned mu=0;mu<1;mu++){
             for(unsigned nu=0;nu<4;nu++){
@@ -79,10 +81,13 @@ namespace Transform{
               if(!std::isfinite(EP_[mu][nu][i][j][k])){
                 if(Ex_DEBUG){
                   std::cerr<<"wrong EPTensor\n";
-                  std::cerr<<eta_0<<' '<<eta_0<<' '<<p[mu]<<' '<<p[nu]<<std::endl;
+                  std::cerr<<eta0<<' '<<p[mu]<<' '<<p[nu]<<std::endl;
                   std::cerr<<particle<<std::endl;
                 }
                 exit(-1);
+              }
+              if(EP_[mu][0][i][j][k]<0){
+                std::cout<<"wrong ed\n";
               }
             }
           }
@@ -127,14 +132,13 @@ namespace Transform{
     for(int i=0;i<x_bin_;i++){
       for(int j=0;j<y_bin_;j++){
         for(int k=0;k<eta_bin_;k++){
-          p+=EP_[0][mu][i][j][k];
           switch (mu)
           {
           case 0:
-            p+=EP_[0][0][i][j][k]*cosh_eta_grid[k]+EP_[0][3][i][j][k]*sinh_eta_grid[k];
+            p+=EP_[0][0][i][j][k]*cosh_eta_grid[k]+EP_[0][3][i][j][k]*sinh_eta_grid[k]*tau_0_;
             break;
           case 3:
-            p+=EP_[0][0][i][j][k]*sinh_eta_grid[k]+EP_[0][3][i][j][k]*cosh_eta_grid[k];
+            p+=EP_[0][0][i][j][k]*sinh_eta_grid[k]+EP_[0][3][i][j][k]*cosh_eta_grid[k]*tau_0_;
             break;
           default:
             p+=EP_[0][mu][i][j][k];

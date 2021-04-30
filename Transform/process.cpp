@@ -273,8 +273,8 @@ namespace Transform{
         secondaries.erase(ii);
       }
       else{
-        ii++;
         energy+=ii->momentum().Minkow()[0];
+        ii++;
       }
     }
     if(secondaries_num_sum!=(secondaries.size()+secondaries_cut.size())){

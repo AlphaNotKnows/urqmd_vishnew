@@ -9,7 +9,7 @@ QGP_search_mode 2 // 0: calculate eta_cut from Edec, 1: use input eta_cut 2: use
 QGP_volume 1. //minimum volume for QGP generated
 eta_cut -0 0 // for eta_cut_mode=1,output particle over eta_cut to QGP_cut19.txt and QGP_cut14.txt
 Edec 1 // decoupling energy density GeV/fm^3, for eta_cut_mode=0
-range 3 //range of particle impact
+range 6 //range of particle impact
 input urqmd_result14 //input file name
 output Initial //output file dir
 K 1 // normalization factor of EPTensor
