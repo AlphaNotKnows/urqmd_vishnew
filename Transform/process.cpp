@@ -158,29 +158,18 @@ namespace Transform{
     output.close();
   }
 
-  void search_spectator(std::vector<Particle>&secondaries,const std::string&output_path){
-    unsigned i=0;
-    const double fraction=0.9999;
-    std::string output_file=output_path+"spectator.txt";
-    std::ofstream output(output_file.c_str());
-    while(true){
-      if(i>=secondaries.size())break;
-      //proton and neutron at high energy levels will also be treat as spectator
-      if(secondaries[i].GetType()>=1&&secondaries[i].GetType()<=16){
-        // if p_z/E>fraction, then treat the particle as spectator
-        if(std::abs(secondaries[i].momentum().Minkow()[3]/secondaries[i].momentum().Minkow()[0])>=fraction){
-          // for(unsigned j=0;j<4;j++){
-          //   output<<secondaries[i].momentum().Minkow()[i]<<' ';
-          // }
-          // output<<endl;
-          output<<secondaries[i];
-          secondaries.erase(secondaries.begin()+i);
-          continue;
-        }
+  void remove_spectator(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut){
+    auto ii=secondaries.begin();
+    while(ii!=secondaries.end()){
+      double eta=ii->space().Milne()[3];
+      if(ii->GetN_coll()==0){
+        secondaries_cut.push_back(*ii);
+        secondaries.erase(ii);
       }
-      i++;
+      else{
+        ii++;
+      }
     }
-    output.close();
   }
 
   double search_energy(const std::string &input_file){
@@ -232,7 +221,7 @@ namespace Transform{
   double remove_eta_cut(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut,const double* eta_cut){
     //energy within eta_cut
     double energy=0;
-    double secondaries_num_sum=secondaries.size();
+    double secondaries_num_sum=secondaries.size()+secondaries_cut.size();
     auto ii=secondaries.begin();
     while(ii!=secondaries.end()){
       double eta=ii->space().Milne()[3];
@@ -246,7 +235,7 @@ namespace Transform{
       }
     }
     if(secondaries_num_sum!=(secondaries.size()+secondaries_cut.size())){
-      std::cerr<<"eta cut is wrong"<<std::endl;
+      std::cerr<<secondaries_num_sum<<' '<<secondaries.size()<<' '<<secondaries_cut.size()<<" eta cut is wrong"<<std::endl;
       exit(-1);
     }
     if(Ex_DEBUG){
@@ -260,7 +249,7 @@ namespace Transform{
   double remove_QGP_volume(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut,const EPTensor&energy_momentum){
     //QGP energy
     double energy=0;
-    double secondaries_num_sum=secondaries.size();
+    double secondaries_num_sum=secondaries.size()+secondaries_cut.size();
     auto ii=secondaries.begin();
     while(ii!=secondaries.end()){
       int id[4]={0,0,0,0};
@@ -278,7 +267,7 @@ namespace Transform{
       }
     }
     if(secondaries_num_sum!=(secondaries.size()+secondaries_cut.size())){
-      std::cerr<<"eta cut is wrong"<<std::endl;
+      std::cerr<<secondaries_num_sum<<' '<<secondaries.size()<<' '<<secondaries_cut.size()<<" eta cut is wrong"<<std::endl;
       exit(-1);
     }
     if(Ex_DEBUG){

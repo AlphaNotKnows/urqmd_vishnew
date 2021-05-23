@@ -31,6 +31,17 @@ int main(int argc,char *argv[]){
     double energy0=search_energy();
     std::cout<<"energy : "<<energy0<<"  energy on tau_0 : "<<momentum_sum(secondaries,0)<<" secondaries on tau_0 : "<<secondaries.size()<<std::endl;
   }
+  remove_spectator(secondaries,secondaries_cut);
+  if(Ex_DEBUG){
+    double energy0=0;
+    double eta_min=20;
+    for(int i=0;i<secondaries_cut.size();i++){
+      energy0+=secondaries_cut[i].momentum().Minkow()[0];
+      double eta_s=secondaries_cut[i].space().Milne()[3];
+      eta_min=eta_s<eta_min?eta_s:eta_min;
+    }
+    std::cout<<"spectator num : "<<secondaries_cut.size()<<" spectator energy : "<<energy0<<" min eta : "<<eta_min<<std::endl;
+  }
 
   //use all the particle on tau_0 within eta_cut to generate energy_momentum
   for(unsigned i=0;i<secondaries.size();i++){

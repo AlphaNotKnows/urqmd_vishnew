@@ -36,10 +36,10 @@ namespace Transform{
   void secondaries_count(const std::string&input_file,const std::string&output_file);
   /** search the spectator
    * @para[in] secondaries : the vector store all secondaries
-   * @para[in] output_path : the path to output the secondaries
+   * @para[in] secondaries_cut : the vector store all spectator
    * @note the spectator will be removed from the secondaries
   */
-  void search_spectator(std::vector<Particle>&secondaries,const std::string&output_path=Ex_output_path);
+  void remove_spectator(std::vector<Particle>&secondaries,std::vector<Particle>&secondaries_cut);
   /**search the energy at t0*/
   double search_energy(const std::string &input_file=Ex_input_file);
   /**remove all particles over eta_cut
