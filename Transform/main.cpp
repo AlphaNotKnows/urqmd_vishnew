@@ -84,7 +84,7 @@ int main(int argc,char *argv[]){
     }
     remove_eta_cut(secondaries,secondaries_cut,eta_cut);
   }
-  else if(Ex_QGP_search_mode==2){
+  else if(Ex_QGP_search_mode==2||Ex_QGP_search_mode==3){
     if(Ex_DEBUG){
       std::cout<<"QGP judge with max volume judge\n";
     }
@@ -100,8 +100,10 @@ int main(int argc,char *argv[]){
       else std::cout<<volume<<" "<<0<<' '<<0<<std::endl;
       return 0;
     }
-    else{
-      remove_QGP_volume(secondaries,secondaries_cut,energy_momentum);
+    else {
+      if(Ex_QGP_search_mode==2){
+        remove_QGP_volume(secondaries,secondaries_cut,energy_momentum);
+      }
       if(Ex_DEBUG){
         std::cout<<"max QGP volume "<<volume<<" begin at ("<<id_x<<","<<id_y<<")"<<std::endl;
         std::cout<<"sum of QGP volume :"<<energy_momentum.QGP_volume_sum()<<std::endl;
@@ -117,6 +119,27 @@ int main(int argc,char *argv[]){
   //   std::cout<<secondaries[i].momentum().Minkow()[0]<<' '<<secondaries[i].momentum().Minkow()[3]<<std::endl;
   // }
   // return 0;
+  if(Ex_QGP_search_mode == 3){
+    if(Ex_DEBUG){
+      urqmd_14(secondaries_cut);
+      OSCAR_19(secondaries_cut);
+    }
+    if(Ex_Vishnew){
+      WriteFlow2(energy_momentum);
+    }
+    if(Ex_MUSIC){
+      WriteFlow3(energy_momentum);
+    }
+    if(Ex_DEBUG){
+      std::cout<<"secondaries in QGP "<<secondaries.size()<<std::endl;
+      std::cout<<"secondaries out of QGP "<<secondaries_cut.size()<<std::endl;
+      std::cout<<"E and p_z out of QGP: "<<momentum_sum(secondaries_cut,0)<<' '<<momentum_sum(secondaries_cut,3)<<std::endl;
+      std::cout<<"E and p_z in EPTensor_QGP :"<<energy_momentum.momentum(0)<<' '<<energy_momentum.momentum(3)<<std::endl;
+      std::cout<<"E and p_z in QGP :";
+    }
+    std::cout<<momentum_sum(secondaries,0)<<" "<<momentum_sum(secondaries,3)<<std::endl;
+    return 0;
+  }
   EPTensor energy_momentum_QGP;
   for(int i=0;i<secondaries.size();i++){
     energy_momentum_QGP.AddParticle(secondaries[i]);
